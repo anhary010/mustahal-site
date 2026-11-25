@@ -36,15 +36,20 @@ button{font:inherit;color:inherit;cursor:pointer}
 .top nav a{text-decoration:none;color:var(--ink-2);padding:8px 10px;font-size:14px;white-space:nowrap;border-radius:6px;font-weight:500}
 .top nav a:hover{color:var(--ink);background:var(--bg-2)}
 
-/* hero: vision + goal, few words */
-.hero{padding-block:56px 44px;border-bottom:1px solid var(--line);overflow:hidden}
-.hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
-.hero .intro{max-width:34rem}
-.hero .kicker{color:var(--gold);font-size:14px;font-weight:600;margin-bottom:8px}
-.hero h1{font-size:clamp(2rem,3.6vw,3rem);line-height:1.3}
-.hero .lead{margin:14px 0 0;color:var(--ink-2);font-size:16.5px}
-.vg{display:grid;gap:18px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
-.vg b{display:block;color:var(--gold);font-family:var(--f-display);font-size:15px;font-weight:700;margin-bottom:4px}
+/* hero: full-screen, dimmed slideshow with the Wrth pattern over it */
+.hero.full{position:relative;min-height:100svh;display:grid;align-items:end;overflow:hidden;color:#fff;background:#2b1a12}
+.hero.full .hero-slider{position:absolute;inset:0;aspect-ratio:auto;border-radius:0;background:#2b1a12}
+.hero.full .hero-slider img{--o:.42;opacity:var(--o);filter:saturate(.85)}
+.hero.full .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,14,8,.15) 0%,rgba(26,14,8,.25) 50%,rgba(26,14,8,.7) 100%);pointer-events:none}
+.hero.full .pat{position:absolute;inset:0;background:url(img/pattern-central.png) no-repeat left 4% top 10%/min(68%,900px) auto;opacity:.42;filter:brightness(1.5);pointer-events:none}
+.hero.full .wrap{position:relative;width:100%;padding-block:120px 72px}
+.hero .intro{max-width:40rem}
+.hero .kicker{color:#e2c47a;font-size:14px;font-weight:600;margin-bottom:8px}
+.hero h1{font-size:clamp(2.3rem,4.6vw,3.8rem);line-height:1.25;color:#fff}
+.hero .lead{margin:14px 0 0;color:#f1e9df;font-size:17px;max-width:36rem}
+#about{padding-block:48px}
+.vg{display:grid;gap:28px 48px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));max-width:1000px}
+.vg b{display:block;color:var(--gold);font-family:var(--f-display);font-size:16px;font-weight:700;margin-bottom:6px}
 .vg p{margin:0;color:var(--ink-2);font-size:15.5px;line-height:1.85}
 .slider{position:relative;background:var(--wall);aspect-ratio:3/2;overflow:hidden;min-width:0}
 .slider img{width:100%;height:100%;object-fit:cover;display:block}
@@ -55,8 +60,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .hero-slider{aspect-ratio:4/3;border-radius:14px}
 .hero-slider::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,26,18,.08) 0%,rgba(43,26,18,.12) 55%,rgba(43,26,18,.55) 100%);pointer-events:none}
 .hero-slider .arr,.hero-slider .n{z-index:2}
-.slider img{transition:opacity .45s ease}
-.slider img.fading{opacity:0}
+.slider img{transition:opacity .6s ease}
+.slider img.fading{opacity:0!important}
 /* sections */
 section{padding-block:56px}
 section.alt{background:var(--bg-2);border-block:1px solid var(--line)}
@@ -123,7 +128,7 @@ footer img{height:30px;width:auto}
 .sec-head h2 .ico{width:38px;height:38px;vertical-align:-9px;margin-inline-end:10px;display:inline-block}
 .tag img{width:15px;height:15px;vertical-align:-3px;margin-inline-end:5px;display:inline-block}
 .slider .arr svg{width:16px;height:16px;fill:var(--brown)}
-.vg b{display:flex;align-items:center;gap:8px}
+.vg b{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .vg b::before{content:"";width:11px;height:14px;background:url(img/motif-star.png) no-repeat center/contain;display:inline-block}
 section.alt{background-image:url(img/motif-flower.png);background-repeat:no-repeat;background-position:left 24px top 24px;background-size:72px auto}
 footer{position:relative;text-align:center}
@@ -132,8 +137,8 @@ footer .wrap{justify-content:center}
 .ev .ph .mark{width:64px;opacity:.55}
 
 @media (max-width:860px){
+  .hero.full .pat{background-position:center top 8%;background-size:120% auto;opacity:.3}
   .hero .wrap{grid-template-columns:1fr}
-  .hero-slider{order:-1}
   dialog.lb .prev{right:6px} dialog.lb .next{left:6px}
 }
 @media (prefers-reduced-motion: reduce){ *{transition:none!important;scroll-behavior:auto} }
@@ -148,18 +153,24 @@ footer .wrap{justify-content:center}
   </nav>
 </div></header>
 
-<section class="hero"><div class="pat" aria-hidden="true"></div><div class="wrap">
-  <div class="intro">
-    <div class="kicker">نادي مستهل الطلابي · معهد ورث · منذ يناير 2026</div>
-    <h1>تُروى الحكاية ويُصنع الأثر</h1>
-    <p class="lead">مساحة حوارية مهنية تجمع طلاب المعهد مع القيادات والخبراء في المشهد الثقافي، انطلقت في 1 يناير 2026 بدعم وتمكين من إدارة شؤون الطلاب.</p>
-    <div class="vg">
-      <div><b>رؤيتنا</b><p>أن يكون نادي مُستهل منصة طلابية رائدة تُسهم في تمكين الجيل الثقافي القادم، وربط الطلبة بالمنظومة الثقافية الوطنية، وصناعة قيادات شابة فاعلة في مستقبل القطاع الثقافي بالمملكة.</p></div>
-      <div><b>رسالتنا</b><p>تفعيل دور الطلبة في المشهد الثقافي من خلال لقاءات نوعية تُسهم في تبادل المعرفة، ودعم التوجّه المهني، وبناء شبكة علاقات مع الهيئات والمؤسسات الثقافية.</p></div>
+<section class="hero full">
+  <div class="slider hero-slider" data-g="hero" data-i="0" aria-hidden="true"><img src="img/noura-1.jpg" alt=""></div>
+  <div class="shade" aria-hidden="true"></div>
+  <div class="pat" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="intro">
+      <div class="kicker">نادي مستهل الطلابي · معهد ورث · منذ يناير 2026</div>
+      <h1>تُروى الحكاية ويُصنع الأثر</h1>
+      <p class="lead">مساحة حوارية مهنية تجمع طلاب المعهد مع القيادات والخبراء في المشهد الثقافي، انطلقت في 1 يناير 2026 بدعم وتمكين من إدارة شؤون الطلاب.</p>
     </div>
   </div>
-  <div class="slider hero-slider" data-g="hero" data-i="0"><img src="img/noura-1.jpg" alt="من تفعيلات نادي مستهل"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/4</span></div>
-</div>
+</section>
+
+<section id="about" class="alt"><div class="wrap">
+  <div class="vg">
+    <div><b>رؤيتنا</b><p>أن يكون نادي مُستهل منصة طلابية رائدة تُسهم في تمكين الجيل الثقافي القادم، وربط الطلبة بالمنظومة الثقافية الوطنية، وصناعة قيادات شابة فاعلة في مستقبل القطاع الثقافي بالمملكة.</p></div>
+    <div><b>رسالتنا</b><p>تفعيل دور الطلبة في المشهد الثقافي من خلال لقاءات نوعية تُسهم في تبادل المعرفة، ودعم التوجّه المهني، وبناء شبكة علاقات مع الهيئات والمؤسسات الثقافية.</p></div>
+  </div>
 </div></section>
 
 <section id="sessions"><div class="wrap">
@@ -343,7 +354,7 @@ function setSlide(el,i){ const g=el.dataset.g, imgs=G[g].imgs; i=(i+imgs.length)
   im.classList.add('fading'); setTimeout(()=>{ im.src='img/'+imgs[i]+'.jpg'; if(n) n.textContent=i+1; im.onload=()=>im.classList.remove('fading'); setTimeout(()=>im.classList.remove('fading'),600); },300); }
 /* hero autoplay: next photo every 4 seconds, paused on hover or while hidden */
 const hero=document.querySelector('.hero-slider'); let heroTimer=null;
-function heroPlay(){ heroStop(); if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; heroTimer=setInterval(()=>{ if(document.hidden) return; setSlide(hero, Number(hero.dataset.i)+1); },4000); }
+function heroPlay(){ heroStop(); if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; heroTimer=setInterval(()=>{ if(document.hidden) return; setSlide(hero, Number(hero.dataset.i)+1); },2000); }
 function heroStop(){ if(heroTimer){ clearInterval(heroTimer); heroTimer=null; } }
 if(hero){ hero.addEventListener('mouseenter',heroStop); hero.addEventListener('mouseleave',heroPlay); G.hero.imgs.forEach(n=>{ const i=new Image(); i.src='img/'+n+'.jpg'; }); heroPlay(); }
 document.addEventListener('click',e=>{
