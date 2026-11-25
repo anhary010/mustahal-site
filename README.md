@@ -19,4 +19,6 @@ python3 -m http.server 8080
   2. شغّل `setup()` مرة (ينشئ جدول «منصة مستهل — البيانات» ويزرع الأعضاء والتفعيلات الحالية).
   3. Deploy → New deployment → Web app → Execute as: Me · Who has access: Anyone → انسخ رابط `/exec`.
   4. ضع الرابط في `js/config.js` ثم ادفع التعديل. الصفحتان تعملان مباشرة.
+- **الحالة الآن (25 نوفمبر 2026):** الربط تم. مشروع Apps Script: https://script.google.com/home/projects/11d51bovzyNl9i8vZxEZg8lY5SFwhlRMRJ12QbcuGHBKdZdFFq9Q90tlL/edit · جدول البيانات: https://docs.google.com/spreadsheets/d/1uuPXWuXl3ALKFHposYfagSAdw7oPqrQSt_NMoL1khig
+- لتغيير الرمزين لاحقًا: عدّل `TEAM_PIN` و`ADMIN_PIN` في المحرر ثم Deploy → Manage deployments → ✎ → Version: New version → Deploy (الرابط يبقى نفسه).
 - الصلاحيات: رمز الأعضاء للدخول والإضافة والتصويت، ورمز الإدارة (أنهار ومحمد) للاعتماد والتحقق والإغلاق والنشر.
