@@ -137,6 +137,11 @@ footer .wrap{justify-content:center}
 .ev .ph .mark{width:64px;opacity:.55}
 
 @media (max-width:860px){
+  /* phones: each section is one swipeable row of cards */
+  .events{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;margin-inline:-20px;padding:4px 20px 14px;scrollbar-width:none}
+  .events::-webkit-scrollbar{display:none}
+  .events .ev{flex:0 0 84%;max-width:340px;scroll-snap-align:center}
+  .sec-head p{font-size:14px}
   .hero.full .pat{background-position:center top 8%;background-size:120% auto;opacity:.3}
   .hero .wrap{grid-template-columns:1fr}
   dialog.lb .prev{right:6px} dialog.lb .next{left:6px}
