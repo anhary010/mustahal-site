@@ -54,9 +54,7 @@ function out_(obj) { return ContentService.createTextOutput(JSON.stringify(obj))
 function doGet(e) {
   const p = (e && e.parameter) || {};
   if (p.action === 'public') return out_({ ok:true, boards: readCol_('boards') });
-  if (p.pin !== TEAM_PIN && p.pin !== ADMIN_PIN) return out_({ ok:false, error:'pin' });
-  const data = {}; COLS.forEach(c => data[c] = readCol_(c));
-  return out_({ ok:true, data, serverTime: new Date().toISOString() });
+  return out_({ ok:false, error:'use_post' }); // القراءة الكاملة عبر POST فقط حتى لا يظهر الرمز في الرابط
 }
 
 function doPost(e) {
@@ -64,6 +62,7 @@ function doPost(e) {
   try { req = JSON.parse(e.postData.contents); } catch(err) { return out_({ ok:false, error:'bad_json' }); }
   const isAdmin = req.admin === ADMIN_PIN;
   if (req.pin !== TEAM_PIN && !isAdmin) return out_({ ok:false, error:'pin' });
+  if (req.action === 'all') { const data = {}; COLS.forEach(c => data[c] = readCol_(c)); return out_({ ok:true, data, serverTime: new Date().toISOString() }); }
   if (!COLS.includes(req.col) || !req.id || !/^[\w\-:.@+؀-ۿ]+$/.test(req.id)) return out_({ ok:false, error:'bad_request' });
   const needsAdmin = (req.action === 'delete' && req.col !== 'votes') || (ADMIN_ONLY[req.col] && ADMIN_ONLY[req.col](req.data));
   if (needsAdmin && !isAdmin) return out_({ ok:false, error:'admin' });
