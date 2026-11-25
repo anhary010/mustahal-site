@@ -205,7 +205,7 @@ function votesFor(ideaId){ return S.votes.filter(v=>v.ideaId===ideaId); }
 const API=window.MustahalAPI; let pollTimer=null, refreshing=false;
 async function boot(){
   bindUI(); renderAll();
-  if(!API.configured()){ setStatus('<div class="setup"><b>الخادم غير مربوط بعد.</b> انشري Apps Script من <code>backend/Code.gs</code> كتطبيق ويب، ثم ضعي رابط <code>/exec</code> في <code>js/config.js</code>.</div>',''); renderMe(); return; }
+  if(!API.configured()){ setStatus('<div class="setup"><b>الخادم غير مربوط بعد.</b> انشر Apps Script من <code>backend/Code.gs</code> كتطبيق ويب، ثم ضع رابط <code>/exec</code> في <code>js/config.js</code>.</div>',''); renderMe(); return; }
   db=API.db;
   try{ me=S.members.find(m=>m.id===localStorage.getItem('mustahal.memberId'))||null; }catch{}
   if(!API.auth.pin){ openLogin(); renderMe(); return; }
@@ -219,7 +219,7 @@ async function refresh(first){
     let mid=null; try{ mid=localStorage.getItem('mustahal.memberId'); }catch{}
     me=S.members.find(m=>m.id===mid)||null; renderMe(); renderAll();
     if(!me && S.members.length) openWho();
-  }catch(e){ console.error(e); if(String(e.message)==='pin'){ API.auth.pin=''; setStatus('رمز الأعضاء غير صحيح.','bad'); openLogin(); } else setStatus('تعذّر الوصول للخادم. تأكدي من الاتصال ومن رابط الخادم.','bad'); }
+  }catch(e){ console.error(e); if(String(e.message)==='pin'){ API.auth.pin=''; setStatus('رمز الأعضاء غير صحيح.','bad'); openLogin(); } else setStatus('تعذّر الوصول للخادم. تأكد من الاتصال ومن رابط الخادم.','bad'); }
   finally{ refreshing=false; }
 }
 /* every write refreshes the data */
@@ -227,12 +227,12 @@ const _origDb=API.db; db={ doc(p){ const d=_origDb.doc(p); return { set:async x=
 function openLogin(){
   let dlg=document.getElementById('loginDlg');
   if(!dlg){ dlg=document.createElement('dialog'); dlg.id='loginDlg'; dlg.className='login'; dlg.setAttribute('aria-label','دخول الأعضاء'); document.body.appendChild(dlg); }
-  dlg.innerHTML=`<form class="in" id="loginForm"><h2>منصة مستهل</h2><p class="muted small" style="margin:0">المنصة داخلية لأعضاء النادي. أدخلي رمز الأعضاء الذي أرسله لكِ الفريق.</p><label class="f">رمز الأعضاء<input name="pin" type="password" required autocomplete="off"></label><button class="btn primary">دخول</button></form>`;
+  dlg.innerHTML=`<form class="in" id="loginForm"><h2>منصة مستهل</h2><p class="muted small" style="margin:0">المنصة داخلية لأعضاء النادي. أدخل رمز الأعضاء الذي أرسله لك الفريق.</p><label class="f">رمز الأعضاء<input name="pin" type="password" required autocomplete="off"></label><button class="btn primary">دخول</button></form>`;
   if(!dlg.open) dlg.showModal();
 }
 function renderMe(){
   const b=$('#meBox'); if(!API.configured()){ b.innerHTML='<span class="pill">غير مربوط</span>'; return; }
-  b.innerHTML= me?`<span>أنتِ: <b>${esc(me.name)}</b> · <span class="muted">${esc(me.role||'')}</span></span>${isExec()?'<button class="btn sm ghost" data-act="who">تغيير</button>':''}<button class="btn sm ghost" data-act="logout" title="خروج">خروج</button>`:(API.auth.pin?`<button class="btn sm primary" data-act="who">من أنت؟</button>`:`<button class="btn sm primary" data-act="login">دخول الأعضاء</button>`);
+  b.innerHTML= me?`<span>أنت: <b>${esc(me.name)}</b> · <span class="muted">${esc(me.role||'')}</span></span>${isExec()?'<button class="btn sm ghost" data-act="who">تغيير</button>':''}<button class="btn sm ghost" data-act="logout" title="خروج">خروج</button>`:(API.auth.pin?`<button class="btn sm primary" data-act="who">من أنت؟</button>`:`<button class="btn sm primary" data-act="login">دخول الأعضاء</button>`);
 }
 function openWho(){
   const body=$('#whoBody'); const teams={}; S.members.filter(m=>m.active!==false).forEach(m=>{(teams[m.team]=teams[m.team]||[]).push(m);});
@@ -282,7 +282,7 @@ function renderAll(){ document.querySelectorAll('[data-exec]').forEach(b=>b.hidd
 function ideaCard(i,full){
   const vs=votesFor(i.id); const mine=me&&vs.some(v=>v.memberId===me.id); const n=S.members.filter(m=>m.active!==false).length||1; const pct=Math.round(vs.length/n*100);
   const canAct=!!me;
-  const actions=i.status==='voting'?`<button class="btn sm ${mine?'voted':''}" data-act="vote" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>${mine?'صوّتِ ✓ (سحب الصوت)':'صوّت لهذه الفكرة'}</button><button class="btn sm gold" data-act="select" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>اختيارها للتنفيذ</button><button class="btn sm ghost" data-act="drop" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>استبعاد</button>`
+  const actions=i.status==='voting'?`<button class="btn sm ${mine?'voted':''}" data-act="vote" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>${mine?'تم تصويتك ✓ (سحب الصوت)':'صوّت لهذه الفكرة'}</button><button class="btn sm gold" data-act="select" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>اختيارها للتنفيذ</button><button class="btn sm ghost" data-act="drop" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>استبعاد</button>`
     : i.status==='selected'?`<button class="btn sm gold" data-act="activate" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>بدء التنفيذ</button><button class="btn sm ghost" data-act="revote" data-id="${esc(i.id)}">إرجاعها للتصويت</button>`
     : i.status==='active'?(isExec()?`<button class="btn sm primary" data-act="close" data-id="${esc(i.id)}">إغلاق التفعيل (+${PTS.closed} لصاحب الفكرة)</button>`:`<span class="small muted">المهام في تبويب التفعيلات</span>`)
     : i.status==='dropped'?`<button class="btn sm ghost" data-act="revote" data-id="${esc(i.id)}">إرجاعها للتصويت</button>`:'';
@@ -297,15 +297,15 @@ function renderIdeas(){
   const p=$('#panel-ideas');
   const open=sortBy(S.ideas.filter(i=>i.status==='voting'),i=>votesFor(i.id).length,true);
   const other=sortBy(S.ideas.filter(i=>['selected','dropped'].includes(i.status)),i=>i.createdAt||'',true);
-  const form=`<details class="card" ${S.ideas.length?'':'open'}><summary style="cursor:pointer;font-weight:700;font-family:var(--f-display);color:var(--brown)">أضيفي فكرة تفعيل جديدة <span class="small muted" style="font-weight:400">· تُفتح للتصويت فورًا وتُحسب لكِ نقطة</span></summary>
+  const form=`<details class="card" ${S.ideas.length?'':'open'}><summary style="cursor:pointer;font-weight:700;font-family:var(--f-display);color:var(--brown)">أضف فكرة تفعيل جديدة <span class="small muted" style="font-weight:400">· تُفتح للتصويت فورًا وتُحسب لك نقطة</span></summary>
     <form id="ideaForm" class="form" style="margin-top:12px">
       <label class="f full">الفكرة<input id="iTitle" name="title" required placeholder="مثال: زيارة استوديو فنان، لقاء مع قيّم، ورشة تصوير بالجوال"></label>
       <label class="f full">وصف قصير: لمن، وماذا يخرج به الطالب<textarea id="iDesc" name="desc"></textarea></label>
       <label class="f">موعد مقترح<input id="iWhen" name="when" placeholder="مثال: يناير 2027"></label>
-      <div class="full"><button class="btn primary" ${me?'':'disabled'}>إضافة وفتح التصويت</button>${me?'':'<span class="small muted" style="margin-inline-start:8px">اختاري اسمك أولًا من الأعلى.</span>'}</div>
+      <div class="full"><button class="btn primary" ${me?'':'disabled'}>إضافة وفتح التصويت</button>${me?'':'<span class="small muted" style="margin-inline-start:8px">اختر اسمك أولًا من الأعلى.</span>'}</div>
     </form></details>`;
   p.innerHTML=`${form}
-    <div><div class="eyebrow"><img src="../img/ic-talk-g.png" alt="">تصويت مفتوح (${open.length})</div>${open.length?`<div class="grid">${open.map(i=>ideaCard(i)).join('')}</div>`:'<div class="empty">لا أفكار مفتوحة للتصويت الآن. أضيفي فكرة.</div>'}</div>
+    <div><div class="eyebrow"><img src="../img/ic-talk-g.png" alt="">تصويت مفتوح (${open.length})</div>${open.length?`<div class="grid">${open.map(i=>ideaCard(i)).join('')}</div>`:'<div class="empty">لا أفكار مفتوحة للتصويت الآن. أضف فكرة.</div>'}</div>
     ${other.length?`<div><div class="eyebrow"><img src="../img/ic-next-g.png" alt="">مختارة أو مستبعدة</div><div class="grid">${other.map(i=>ideaCard(i)).join('')}</div></div>`:''}`;
 }
 
@@ -315,7 +315,7 @@ function renderActive(){
   const act=sortBy(S.ideas.filter(i=>i.status==='active'),i=>i.activatedAt||'',true);
   const done=sortBy(S.ideas.filter(i=>i.status==='closed'),i=>i.closedAt||'',true);
   const memberOpts=sortBy(S.members.filter(m=>m.active!==false),m=>m.name).map(m=>`<option value="${esc(m.id)}" ${me&&m.id===me.id?'selected':''}>${esc(m.name)}</option>`).join('');
-  const taskRow=(t,i)=>{ const st=t.status||'done'; const ex=isExec(); const mineTask=me&&t.memberId===me.id;
+  const taskRow=(t,i)=>{ const st=TSTATUS[t.status]?t.status:(t.status?'pending':'done'); const ex=isExec(); const mineTask=me&&t.memberId===me.id;
     let act='';
     if(i.status==='active'){
       if(st==='pending'&&ex) act=`<button class="btn sm gold" data-act="approve-task" data-id="${esc(t.id)}">اعتماد</button><button class="btn sm ghost" data-act="del-task" data-id="${esc(t.id)}">رفض</button>`;
@@ -324,7 +324,7 @@ function renderActive(){
       if(ex&&st!=='pending') act+=`<button class="btn sm ghost" data-act="del-task" data-id="${esc(t.id)}" aria-label="حذف">×</button>`;
     }
     const who= st==='pending'?`أضافها ${esc(mName(t.addedBy))} لـ<b>${esc(mName(t.memberId))}</b>`: st==='done'?`<b>${esc(mName(t.memberId))}</b> · +${PTS.task}`:`معيّنة إلى <b>${esc(mName(t.memberId))}</b>`;
-    return `<div class="task"><span>${esc(t.title)}<div class="by">${who} · <span class="chip t-${st}">${TSTATUS[st]}</span></div></span><span class="row" style="gap:6px">${act||''}</span><span></span></div>`; };
+    return `<div class="task"><span>${esc(t.title)}<div class="by">${who} · <span class="chip t-${esc(st)}">${esc(TSTATUS[st]||st)}</span></div></span><span class="row" style="gap:6px">${act||''}</span><span></span></div>`; };
   const block=i=>{ const ts=sortBy(S.tasks.filter(t=>t.ideaId===i.id),t=>t.at||''); const done=ts.filter(t=>(t.status||'done')==='done').length; const pend=ts.filter(t=>t.status==='pending').length;
     return `<article class="card"><div class="row spread"><h3>${esc(i.title)}</h3><span class="chip ${esc(i.status)}">${STATUS[i.status]}</span></div>
       <div class="small muted">صاحب الفكرة: <b>${esc(mName(i.byMember))}</b>${i.when?` · ${esc(i.when)}`:''} · ${ts.length} مهمة · ${done} منجزة · ${done*PTS.task} نقطة احتُسبت${pend?` · ${pend} بانتظار الاعتماد`:''}</div>
@@ -334,7 +334,7 @@ function renderActive(){
       <div class="row" style="margin-top:10px">${isExec()?`<button class="btn sm" data-act="close" data-id="${esc(i.id)}">إغلاق التفعيل (+${PTS.closed} لصاحب الفكرة)</button>`:''}</div>`:''}
     </article>`; };
   const pendAll=S.tasks.filter(t=>t.status==='pending').length;
-  p.innerHTML=`${isExec()&&pendAll?`<div class="notice">${pendAll} ${pendAll===1?'مهمة بانتظار اعتمادك':'مهام بانتظار اعتمادك'}.</div>`:''}<div><div class="eyebrow"><img src="../img/ic-next-g.png" alt="">تحت التنفيذ (${act.length})</div>${act.length?`<div class="stack">${act.map(block).join('')}</div>`:'<div class="empty">لا تفعيلات تحت التنفيذ. اختاري فكرة من التصويت ثم «بدء التنفيذ».</div>'}</div>
+  p.innerHTML=`${isExec()&&pendAll?`<div class="notice">${pendAll} ${pendAll===1?'مهمة بانتظار اعتمادك':'مهام بانتظار اعتمادك'}.</div>`:''}<div><div class="eyebrow"><img src="../img/ic-next-g.png" alt="">تحت التنفيذ (${act.length})</div>${act.length?`<div class="stack">${act.map(block).join('')}</div>`:'<div class="empty">لا تفعيلات تحت التنفيذ. اختر فكرة من التصويت ثم «بدء التنفيذ».</div>'}</div>
     ${done.length?`<div><div class="eyebrow"><img src="../img/ic-news-g.png" alt="">مكتملة (${done.length})</div><div class="stack">${done.map(block).join('')}</div></div>`:''}`;
 }
 
@@ -384,7 +384,7 @@ async function onClick(e){
   if(act==='who'){ openWho(); return; }
   if(act==='login'){ openLogin(); return; }
   if(act==='logout'){ API.auth.pin=''; API.auth.admin=''; try{localStorage.removeItem('mustahal.memberId');}catch{} location.reload(); return; }
-  if(!me){ toast('اختاري اسمك أولًا'); return; }
+  if(!me){ toast('اختر اسمك أولًا'); return; }
   try{
     const idea=S.ideas.find(i=>i.id===id);
     if(act==='vote'){ const vid=`${id}_${me.id}`; const ex=S.votes.find(v=>v.id===vid); if(ex) await db.doc('votes/'+vid).delete(); else await db.doc('votes/'+vid).set({ideaId:id,memberId:me.id,at:nowIso()}); }
@@ -403,9 +403,9 @@ async function onSubmit(e){
   const f=e.target; if(!(f instanceof HTMLFormElement)) return; e.preventDefault(); const d=Object.fromEntries(new FormData(f).entries());
   if(f.id==='loginForm'){ API.auth.pin=(d.pin||'').trim(); document.getElementById('loginDlg').close(); await refresh(true); if(API.auth.pin&&!pollTimer){ pollTimer=setInterval(()=>{ if(!document.hidden) refresh(); },20000); } return; }
   if(f.id==='adminForm'){ API.auth.admin=(d.admin||'').trim(); try{ await _origDb.doc('members/'+d.memberId).update({lastAdminLogin:nowIso()}); }catch(err){ API.auth.admin=''; toast('رمز الإدارة غير صحيح','bad'); return; } $('#whoDlg').close(); toast('تم تفعيل صلاحيات الإدارة','ok'); await refresh(); return; }
-  if(!me){ toast('اختاري اسمك أولًا'); return; }
+  if(!me){ toast('اختر اسمك أولًا'); return; }
   try{
-    if(f.id==='ideaForm'){ const id=newId(); await db.doc('ideas/'+id).set({title:d.title.trim(),desc:(d.desc||'').trim(),when:(d.when||'').trim(),byMember:me.id,status:'voting',createdAt:nowIso()}); f.reset(); toast(`أُضيفت الفكرة وفُتح التصويت، +${PTS.idea} لكِ`,'ok'); f.closest('details')?.removeAttribute('open'); }
+    if(f.id==='ideaForm'){ const id=newId(); await db.doc('ideas/'+id).set({title:d.title.trim(),desc:(d.desc||'').trim(),when:(d.when||'').trim(),byMember:me.id,status:'voting',createdAt:nowIso()}); f.reset(); toast(`أُضيفت الفكرة وفُتح التصويت، +${PTS.idea} لك`,'ok'); f.closest('details')?.removeAttribute('open'); }
     else if(f.dataset.task){ const id=newId(); const ex=isExec(); await db.doc('tasks/'+id).set({ideaId:f.dataset.task,title:d.title.trim(),memberId:d.memberId,addedBy:me.id,at:nowIso(),status:ex?'assigned':'pending',...(ex?{approvedBy:me.id,approvedAt:nowIso()}:{})}); f.reset(); toast(ex?`عُيّنت المهمة لـ${mName(d.memberId)}`:'أُرسلت المهمة لاعتماد أنهار أو محمد','ok'); }
     else if(f.id==='memberForm'){ await db.doc('members/'+newId()).set({name:d.name.trim(),role:(d.role||'').trim(),team:d.team,active:true,order:99,createdAt:nowIso()}); f.reset(); toast('أُضيف العضو','ok'); }
   }catch(err){ console.error(err); toast('ما انحفظ: '+(err.code||err.message||'خطأ'),'bad'); }

@@ -4,11 +4,11 @@
  *
  * التشغيل مرة واحدة:
  *  1) غيّري الرمزين أدناه.
- *  2) شغّلي الدالة setup() من المحرر (تنشئ جدول البيانات وتزرع الأعضاء والتفعيلات الحالية).
- *  3) Deploy → New deployment → Web app → Execute as: Me · Who has access: Anyone → انسخي رابط /exec وضعيه في js/config.js
+ *  2) شغّل الدالة setup() من المحرر (تنشئ جدول البيانات وتزرع الأعضاء والتفعيلات الحالية).
+ *  3) Deploy → New deployment → Web app → Execute as: Me · Who has access: Anyone → انسخ رابط /exec وضعه في js/config.js
  */
-const TEAM_PIN  = 'mustahal2026';   // رمز الأعضاء (غيّريه)
-const ADMIN_PIN = 'admin2026';      // رمز الإدارة: أنهار ومحمد (غيّريه)
+const TEAM_PIN  = 'mustahal2026';   // رمز الأعضاء (غيّره)
+const ADMIN_PIN = 'admin2026';      // رمز الإدارة: أنهار ومحمد (غيّره)
 const EXEC = ['m-anhar', 'm-mohammed'];
 const COLS = ['members','ideas','votes','tasks','students','events','attendance','boards'];
 const ADMIN_ONLY = { // عمليات تحتاج رمز الإدارة
