@@ -53,6 +53,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 .slider .arr.prev{right:10px} .slider .arr.next{left:10px}
 .slider .n{position:absolute;bottom:10px;left:12px;background:rgba(43,26,18,.72);color:#fff;font-size:12px;padding:1px 9px;border-radius:999px;font-variant-numeric:tabular-nums;direction:ltr}
 .hero-slider{aspect-ratio:4/3;border-radius:14px}
+.hero-slider::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,26,18,.08) 0%,rgba(43,26,18,.12) 55%,rgba(43,26,18,.55) 100%);pointer-events:none}
+.hero-slider .arr,.hero-slider .n{z-index:2}
+.slider img{transition:opacity .45s ease}
+.slider img.fading{opacity:0}
 /* sections */
 section{padding-block:56px}
 section.alt{background:var(--bg-2);border-block:1px solid var(--line)}
@@ -154,7 +158,7 @@ footer .wrap{justify-content:center}
       <div><b>رسالتنا</b><p>تفعيل دور الطلبة في المشهد الثقافي من خلال لقاءات نوعية تُسهم في تبادل المعرفة، ودعم التوجّه المهني، وبناء شبكة علاقات مع الهيئات والمؤسسات الثقافية.</p></div>
     </div>
   </div>
-  <div class="slider hero-slider" data-g="hero" data-i="0"><img src="img/deans-2.jpg" alt="من تفعيلات نادي مستهل"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/4</span></div>
+  <div class="slider hero-slider" data-g="hero" data-i="0"><img src="img/noura-1.jpg" alt="من تفعيلات نادي مستهل"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/4</span></div>
 </div>
 </div></section>
 
@@ -319,7 +323,7 @@ footer .wrap{justify-content:center}
 
 <script>
 const G={
-  hero:{cap:'نادي مستهل',imgs:['deans-2','launch-1','bgm-4','noura-1']},
+  hero:{cap:'نادي مستهل',imgs:['noura-1','deans-2','launch-1','bgm-4']},
   launch:{cap:'إطلاق نادي مستهل · 1 يناير 2026',imgs:['launch-1','launch-2','launch-3','launch-4','launch-5','launch-6','launch-7']},
   jun:{cap:'حفل آخر الموسم · 17 يونيو 2026',imgs:['jun-1']},
   wrth1:{cap:'المحافظة على التراث العمراني · فبراير 2026',imgs:['wrth-1','wrth-4','wrth-5']},
@@ -335,9 +339,15 @@ const G={
 let cur={g:null,i:0};
 const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap');
 function show(g,i){ const s=G[g]; if(!s) return; cur={g,i:(i+s.imgs.length)%s.imgs.length}; lbImg.src='img/'+s.imgs[cur.i]+'.jpg'; lbCap.textContent=s.cap+' · '+(cur.i+1)+'/'+s.imgs.length; if(!lb.open) lb.showModal(); }
-function setSlide(el,i){ const g=el.dataset.g, imgs=G[g].imgs; i=(i+imgs.length)%imgs.length; el.dataset.i=i; el.querySelector('img').src='img/'+imgs[i]+'.jpg'; const n=el.querySelector('.n b'); if(n) n.textContent=i+1; }
+function setSlide(el,i){ const g=el.dataset.g, imgs=G[g].imgs; i=(i+imgs.length)%imgs.length; el.dataset.i=i; const im=el.querySelector('img'); const n=el.querySelector('.n b');
+  im.classList.add('fading'); setTimeout(()=>{ im.src='img/'+imgs[i]+'.jpg'; if(n) n.textContent=i+1; im.onload=()=>im.classList.remove('fading'); setTimeout(()=>im.classList.remove('fading'),600); },300); }
+/* hero autoplay: next photo every 4 seconds, paused on hover or while hidden */
+const hero=document.querySelector('.hero-slider'); let heroTimer=null;
+function heroPlay(){ heroStop(); if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; heroTimer=setInterval(()=>{ if(document.hidden) return; setSlide(hero, Number(hero.dataset.i)+1); },4000); }
+function heroStop(){ if(heroTimer){ clearInterval(heroTimer); heroTimer=null; } }
+if(hero){ hero.addEventListener('mouseenter',heroStop); hero.addEventListener('mouseleave',heroPlay); G.hero.imgs.forEach(n=>{ const i=new Image(); i.src='img/'+n+'.jpg'; }); heroPlay(); }
 document.addEventListener('click',e=>{
-  const ar=e.target.closest('[data-sl]'); if(ar){ const el=ar.closest('.slider'); setSlide(el, Number(el.dataset.i)+(ar.dataset.sl==='next'?1:-1)); return; }
+  const ar=e.target.closest('[data-sl]'); if(ar){ const el=ar.closest('.slider'); setSlide(el, Number(el.dataset.i)+(ar.dataset.sl==='next'?1:-1)); if(el===hero) heroPlay(); return; }
   const o=e.target.closest('[data-open]'); if(o){ show(o.dataset.open,0); return; }
   const im=e.target.closest('.slider img'); if(im){ const el=im.closest('.slider'); if(el.dataset.g!=='hero') show(el.dataset.g, Number(el.dataset.i)); return; }
   const a=e.target.closest('[data-lb]'); if(a){ if(a.dataset.lb==='close') lb.close(); else show(cur.g,cur.i+(a.dataset.lb==='next'?1:-1)); return; }
