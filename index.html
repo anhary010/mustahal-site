@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="نادي مستهل الطلابي في معهد ورث: ما أنجزناه منذ يناير 2026 بالصور، التفعيلات القادمة، وأهداف 2027.">
+<meta property="og:title" content="نادي مستهل"><meta property="og:description" content="تُروى الحكاية ويُصنع الأثر. أعمال نادي مستهل الطلابي في معهد ورث."><meta property="og:image" content="img/deans-2.jpg"><meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="img/mark.png">
+<title>نادي مستهل</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Aref+Ruqaa:wght@400&display=swap">
+<style>
+[hidden]{display:none!important}
+/* Layout: dark gallery wall. Prints pinned at slight angles on a near-black ground; one gold accent; Amiri display over Plex Arabic body. Dark-first by design, with a light wall for viewers who choose it. */
+:root{
+  --bg:#141010; --bg-2:#1c1614; --wall:#221b18; --ink:#f3ebe1; --ink-2:#cdbfb2; --mute:#8d7d70; --line:#332a25;
+  --gold:#d2ad5c; --gold-ink:#1a1308; --brown:#4a1e10; --print:#f6f1e9; --print-ink:#2a1a12; --tag:#2a211c;
+  --f-display:"Amiri","Noto Naskh Arabic",serif; --f-body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif; --f-hand:"Aref Ruqaa","Amiri",serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --bg:#f4eee6; --bg-2:#ece4d9; --wall:#e9dfd2; --ink:#241711; --ink-2:#4e3d33; --mute:#7f6d60; --line:#dccfbf;
+  --gold:#9a7429; --gold-ink:#fff8ea; --print:#ffffff; --print-ink:#2a1a12; --tag:#efe6d8; color-scheme:light }}
+:root[data-theme="light"]{
+  --bg:#f4eee6; --bg-2:#ece4d9; --wall:#e9dfd2; --ink:#241711; --ink-2:#4e3d33; --mute:#7f6d60; --line:#dccfbf;
+  --gold:#9a7429; --gold-ink:#fff8ea; --print:#ffffff; --print-ink:#2a1a12; --tag:#efe6d8; color-scheme:light }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;direction:rtl;letter-spacing:0;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.2;margin:0;text-wrap:balance}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:20px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:18px;min-height:60px;min-width:0}
+.top img{height:30px;width:auto}
+.top nav{margin-inline-start:auto;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;min-width:0;max-width:100%}
+.top nav a{text-decoration:none;color:var(--ink-2);padding:8px 10px;font-size:14px;white-space:nowrap;border-radius:6px}
+.top nav a:hover{color:var(--ink);background:var(--bg-2)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding-block:56px 40px;border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.hero .kicker{color:var(--gold);font-size:14px;font-weight:500;margin-bottom:12px}
+.hero h1{font-size:clamp(2.4rem,5.2vw,4.4rem);line-height:1.15}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{max-width:36rem;color:var(--ink-2);font-size:17px;margin:20px 0 0}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:26px;color:var(--mute);font-size:14px}
+.hero .meta b{color:var(--ink);font-weight:600}
+/* pinned prints cluster = the signature */
+.cluster{position:relative;height:460px}
+.print{position:absolute;background:var(--print);padding:8px 8px 30px;box-shadow:0 10px 24px rgba(0,0,0,.35),0 2px 4px rgba(0,0,0,.25);transform:rotate(var(--r,0deg));transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.print img{width:100%;height:100%;object-fit:cover;aspect-ratio:var(--ar,4/3);background:#ddd}
+.print .cap{position:absolute;bottom:6px;right:10px;left:10px;font-family:var(--f-hand);color:var(--print-ink);font-size:14px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.print:hover{transform:rotate(0deg) scale(1.03);z-index:5}
+.print::before{content:"";position:absolute;top:-8px;left:50%;width:34px;height:12px;margin-left:-17px;background:color-mix(in srgb,var(--gold) 55%,transparent);transform:rotate(-3deg);opacity:.8}
+.cluster .p1{width:46%;right:2%;top:6%;--r:-5deg;--ar:4/3}
+.cluster .p2{width:38%;right:50%;top:0;--r:4deg;--ar:4/3}
+.cluster .p3{width:34%;right:58%;top:46%;--r:-3deg;--ar:4/3}
+.cluster .p4{width:40%;right:10%;top:52%;--r:6deg;--ar:4/3}
+.note{position:absolute;left:0;bottom:4%;font-family:var(--f-hand);font-size:22px;color:var(--gold);transform:rotate(-6deg);line-height:1.3;max-width:40%}
+
+/* sections */
+section{padding-block:56px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.sec-head h2{font-size:clamp(1.7rem,3vw,2.4rem)}
+.sec-head p{margin:0;color:var(--mute);font-size:15px;max-width:40rem}
+
+/* filters */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.filters button{border:1px solid var(--line);background:transparent;color:var(--ink-2);padding:7px 14px;border-radius:999px;font-size:14px}
+.filters button[aria-pressed="true"]{background:var(--gold);color:var(--gold-ink);border-color:var(--gold);font-weight:600}
+.filters button:hover{border-color:var(--gold)}
+
+/* timeline cards */
+.events{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.ev{background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-width:0;transition:transform .3s,border-color .3s}
+.ev:hover{border-color:color-mix(in srgb,var(--gold) 50%,var(--line))}
+.ev.hidden{display:none}
+.ev .ph{position:relative;background:var(--wall);padding:18px 18px 8px;min-height:230px;display:grid;place-items:center;overflow:hidden}
+.ev .ph .print{position:relative;width:min(100%,320px);--r:-2.5deg;padding-bottom:26px}
+.ev .ph .print img{aspect-ratio:3/2}
+.ev .ph .print:nth-child(2){position:absolute;width:38%;right:10px;bottom:10px;--r:5deg;padding-bottom:8px}
+.ev .ph .print:nth-child(2) .cap{display:none}
+.ev .ph.soon{min-height:170px}
+.ev .ph .mark{width:70px;opacity:.9}
+.ev .body{padding:18px 20px 20px;display:grid;gap:8px}
+.ev .tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;padding:2px 10px;border-radius:999px;background:var(--tag);color:var(--ink-2);border:1px solid var(--line)}
+.tag.gold{background:transparent;color:var(--gold);border-color:var(--gold)}
+.ev h3{font-size:1.35rem}
+.ev .when{color:var(--mute);font-size:13.5px}
+.ev p{margin:0;color:var(--ink-2);font-size:15px}
+.ev .more{margin-top:4px;background:none;border:0;color:var(--gold);padding:0;font-size:14px;text-align:right;width:max-content}
+.ev .more:hover{text-decoration:underline}
+
+/* strip of numbers as a sentence, not tiles */
+.sum{border-block:1px solid var(--line);padding-block:22px;display:flex;flex-wrap:wrap;gap:10px 36px;color:var(--ink-2);font-size:15px}
+.sum b{font-family:var(--f-display);font-size:1.6rem;color:var(--gold);font-weight:700;margin-inline-end:6px;font-variant-numeric:tabular-nums}
+
+/* goals */
+.goals{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.goal{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--bg-2)}
+.goal h3{font-size:1.2rem;margin-bottom:6px}
+.goal p{margin:0;color:var(--ink-2);font-size:14.5px}
+.tracks{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.tracks span{padding:6px 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;color:var(--ink-2)}
+
+/* gallery (lightbox) */
+dialog.lb{border:0;padding:0;background:transparent;max-width:min(96vw,1100px);width:auto}
+dialog.lb::backdrop{background:rgba(10,6,4,.9)}
+dialog.lb .frame{background:var(--print);padding:12px 12px 42px;position:relative}
+dialog.lb img{max-height:80vh;width:auto;max-width:100%;margin:auto}
+dialog.lb .cap{position:absolute;bottom:10px;right:16px;left:16px;font-family:var(--f-hand);color:var(--print-ink);font-size:18px;text-align:right}
+dialog.lb .x{position:absolute;top:-14px;left:-14px;width:36px;height:36px;border-radius:50%;border:0;background:var(--gold);color:var(--gold-ink);font-size:18px;font-weight:700}
+dialog.lb .nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:20px}
+dialog.lb .prev{right:-50px} dialog.lb .next{left:-50px}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.thumbs button{border:0;padding:0;background:var(--print);padding:3px;width:52px;height:40px;overflow:hidden;transform:rotate(var(--r,0deg))}
+.thumbs button img{width:100%;height:100%;object-fit:cover}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding-block:44px 60px;color:var(--mute);font-size:14px}
+footer .wrap{display:grid;gap:26px;grid-template-columns:1.2fr 1fr 1fr}
+footer .tag-line{font-family:var(--f-display);font-size:1.6rem;color:var(--ink);line-height:1.3}
+footer h4{margin:0 0 8px;color:var(--ink);font-size:14px;font-weight:600}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--gold)}
+footer img{height:34px;width:auto;margin-bottom:12px}
+
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr}
+  .cluster{height:360px;order:-1}
+  .note{display:none}
+  footer .wrap{grid-template-columns:1fr}
+  dialog.lb .prev{right:6px} dialog.lb .next{left:6px}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;scroll-behavior:auto} }
+</style>
+
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <img src="img/logo-white.png" alt="نادي مستهل" class="logo-dark">
+  <nav aria-label="أقسام الصفحة">
+    <a href="#done">ماذا أنجزنا</a><a href="#next">القادم</a><a href="#goals">أهدافنا</a><a href="#about">من نحن</a>
+  </nav>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <div class="kicker">نادي مستهل الطلابي · معهد ورث · منذ يناير 2026</div>
+    <h1>تُروى الحكاية<br>ويُصنع <em>الأثر</em></h1>
+    <p>نادٍ طلابي يقرّب طلاب المعهد من الممارسين: جلسات حوارية، زيارات لاستوديوهات ومتاحف، لقاءات مع خبراء، ومساهمة في تنظيم فعاليات مجتمع ورث. كل ما هنا نفّذه طلاب، بلا ميزانية، وبدعم تنسيقي من شؤون الطلاب.</p>
+    <div class="meta"><span><b>8</b> تفعيلات منفّذة</span><span><b>3</b> قادمة</span><span><b>0</b> ريال ميزانية</span></div>
+  </div>
+  <div class="cluster" aria-hidden="true">
+    <figure class="print p1"><img src="img/deans-2.jpg" alt=""><figcaption class="cap">التعلّم بالتجربة · فبراير</figcaption></figure>
+    <figure class="print p2"><img src="img/launch-1.jpg" alt=""><figcaption class="cap">يوم الإطلاق · 1 يناير</figcaption></figure>
+    <figure class="print p3"><img src="img/bgm-4.jpg" alt=""><figcaption class="cap">متحف الذهب الأسود · مايو</figcaption></figure>
+    <figure class="print p4"><img src="img/noura-1.jpg" alt=""><figcaption class="cap">لقاء مع خبير · نوفمبر</figcaption></figure>
+    <div class="note">من الصف<br>إلى صالة العرض</div>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="sum">
+  <span><b>3</b> جلسات حوارية</span><span><b>1</b> لقاء مع خبير</span><span><b>1</b> جلسة أونلاين</span><span><b>2</b> مساهمات مع مجتمع ورث</span><span><b>2</b> زيارات</span>
+</div></div>
+
+<section id="done"><div class="wrap">
+  <div class="sec-head"><h2>ماذا أنجزنا</h2><p>كل تفعيل مستقل، يكتمل في يوم واحد، ويُوثَّق بصوره. اختر تصنيفًا أو تصفّح الكل من الأحدث.</p></div>
+  <div class="filters" role="group" aria-label="تصنيف التفعيلات">
+    <button aria-pressed="true" data-f="all">الكل</button>
+    <button aria-pressed="false" data-f="talk">جلسات حوارية</button>
+    <button aria-pressed="false" data-f="expert">لقاء مع خبير</button>
+    <button aria-pressed="false" data-f="visit">زيارات</button>
+    <button aria-pressed="false" data-f="online">أونلاين</button>
+    <button aria-pressed="false" data-f="community">مجتمع ورث</button>
+    <button aria-pressed="false" data-f="milestone">محطات النادي</button>
+  </div>
+  <div class="events" id="events">
+
+    <article class="ev" data-f="expert" data-g="noura">
+      <div class="ph"><figure class="print"><img src="img/noura-1.jpg" alt="نورة سليمان تتحدث أمام الطلاب"><figcaption class="cap">11 نوفمبر 2026</figcaption></figure><figure class="print"><img src="img/noura-7.jpg" alt=""></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">لقاء مع خبير</span><span class="tag">حضوري</span></div>
+        <h3>من الفكرة إلى قطعة الأثاث</h3><div class="when">الأربعاء 11 نوفمبر 2026 · المعهد · ساعة</div>
+        <p>لقاء مع المصممة نورة سليمان عن رحلة القطعة من الرسمة الأولى إلى التنفيذ: الذوق، الصناعة، التسعير، والمتاحف كمصدر إلهام. خمسة محاور وأسئلة مفتوحة من الطلاب.</p>
+        <button class="more" data-open="noura">عرض الصور (9)</button></div>
+    </article>
+
+    <article class="ev" data-f="online" data-g="pink">
+      <div class="ph"><figure class="print"><img src="img/pink-poster.jpg" alt="إعلان جلسة أكتوبر الوردي"><figcaption class="cap">28 أكتوبر 2026</figcaption></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">أونلاين</span><span class="tag">توعوي</span></div>
+        <h3>وعيكِ أمانكِ… والكشف المبكر حياة</h3><div class="when">الأربعاء 28 أكتوبر 2026 · عبر Teams · ساعة</div>
+        <p>جلسة حوارية بمناسبة أكتوبر الوردي مع د. ملك علوي، استشارية طب الأشعة التشخيصية في مستشفى السعودي الألماني، عن الكشف المبكر وصحة الثدي.</p></div>
+    </article>
+
+    <article class="ev" data-f="visit" data-g="ghanem">
+      <div class="ph"><figure class="print"><img src="img/nov-x2.jpg" alt="الفنان غانم يعرض تجاربه في استوديوه"><figcaption class="cap">نوفمبر 2026</figcaption></figure><figure class="print"><img src="img/nov-x1.jpg" alt=""></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">زيارة</span><span class="tag">استوديو</span></div>
+        <h3>زيارة استوديو غانم</h3><div class="when">نوفمبر 2026 · استوديو الفنان</div>
+        <p>جلسة في مكتبة الاستوديو مع الفنان غانم عن ممارسته وتجاربه بين المعارض والورش، من معرض «The Great Michelangelo Is Dead» إلى ورشة التصوير «Lens of Equality»، وحوار مفتوح مع الطلاب.</p>
+        <button class="more" data-open="ghanem">عرض الصور (2)</button></div>
+    </article>
+
+    <article class="ev" data-f="visit" data-g="bgm">
+      <div class="ph"><figure class="print"><img src="img/bgm-1.jpg" alt="طلاب مستهل ورواق المتاحف مع مدير متحف الذهب الأسود"><figcaption class="cap">مايو 2026 · اليوم العالمي للمتاحف</figcaption></figure><figure class="print"><img src="img/bgm-2.jpg" alt=""></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">زيارة</span><span class="tag">مع نادي رواق المتاحف</span></div>
+        <h3>زيارة متحف الذهب الأسود</h3><div class="when">مايو 2026 · اليوم العالمي للمتاحف · متحف الذهب الأسود</div>
+        <p>تفعيل لليوم العالمي للمتاحف بالتعاون مع نادي رواق المتاحف: جولة في المتحف وحوار مع مديره جاك برسكيان عن المتحف كمكان حيّ للتبادل الثقافي، يربط الدراسة الأكاديمية بالتجربة داخل المؤسسات الثقافية.</p>
+        <button class="more" data-open="bgm">عرض الصور (4)</button></div>
+    </article>
+
+    <article class="ev" data-f="milestone" data-g="jun">
+      <div class="ph"><figure class="print"><img src="img/jun-1.jpg" alt="صورة جماعية لأعضاء النادي"><figcaption class="cap">17 يونيو 2026</figcaption></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">محطة</span></div>
+        <h3>ختام الفصل الدراسي</h3><div class="when">17 يونيو 2026 · المعهد</div>
+        <p>صورة الفريق في ختام أول فصل دراسي كامل للنادي.</p></div>
+    </article>
+
+    <article class="ev" data-f="talk" data-g="apr">
+      <div class="ph"><figure class="print"><img src="img/apr-1.jpg" alt="جلسة حوارية في المعهد"><figcaption class="cap">21 أبريل 2026</figcaption></figure><figure class="print"><img src="img/apr-5.jpg" alt=""></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">جلسة حوارية</span><span class="tag">حضوري</span></div>
+        <h3>جلسة حوارية مع ضيفة</h3><div class="when">21 أبريل 2026 · المعهد</div>
+        <p>لقاء حواري مفتوح مع ضيفة في قاعة المعهد، بأسئلة الطلاب وتسجيل بالحضور عبر رمز QR.</p>
+        <button class="more" data-open="apr">عرض الصور (6)</button></div>
+    </article>
+
+    <article class="ev" data-f="community" data-g="wrth">
+      <div class="ph"><figure class="print"><img src="img/wrth-1.jpg" alt="محاضرة المحافظة على التراث العمراني"><figcaption class="cap">فبراير 2026</figcaption></figure><figure class="print"><img src="img/wrth-3.jpg" alt=""></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">مجتمع ورث</span><span class="tag">تنظيم</span></div>
+        <h3>مستهل × مجتمع ورث</h3><div class="when">14 و28 فبراير 2026 · مقر ورث</div>
+        <p>تعاون مع مجتمع ورث في تنظيم فعاليات شهر فبراير: وفّر النادي فريق التنظيم والإشراف على الحضور، ومنها محاضرة «المحافظة على التراث العمراني بين الترميم والتطوير».</p>
+        <button class="more" data-open="wrth">عرض الصور (5)</button></div>
+    </article>
+
+    <article class="ev" data-f="talk" data-g="deans">
+      <div class="ph"><figure class="print"><img src="img/deans-2.jpg" alt="جلسة التعلم بالتجربة في الخيمة"><figcaption class="cap">16 فبراير 2026</figcaption></figure><figure class="print"><img src="img/deans-poster.jpg" alt=""></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">جلسة حوارية</span><span class="tag">موسم الأندية</span></div>
+        <h3>التعلّم بالتجربة: دور الأندية في بناء الطالب مهنيًا وإبداعيًا</h3><div class="when">16 فبراير 2026 · مقر ورث</div>
+        <p>جلسة أعدّها النادي ضمن موسم الأندية الطلابية، واستضاف فيها عمداء كليات المعهد، مع نشاط تفاعلي لاختبار المعرفة الثقافية للحضور وهدايا رمزية.</p>
+        <button class="more" data-open="deans">عرض الصور (7)</button></div>
+    </article>
+
+    <article class="ev" data-f="talk" data-g="dream">
+      <div class="ph"><figure class="print"><img src="img/dream-1.jpg" alt="جلسة من الحلم إلى الحرفة"><figcaption class="cap">19 يناير 2026</figcaption></figure><figure class="print"><img src="img/dream-2.jpg" alt=""></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">جلسة حوارية</span><span class="tag">مع نادي الخريجين</span></div>
+        <h3>من الحلم إلى الحرفة</h3><div class="when">19 يناير 2026 · مقر ورث · 40 دقيقة</div>
+        <p>جلسة أعدّها الخريج فيصل الجارالله والطالب حماد الشمري عن برنامج البناء بالطين، أدارها عضو النادي محمد آل عطفة وأعدّ محاورها، بحضور الطلاب وأعضاء هيئة التدريس.</p>
+        <button class="more" data-open="dream">عرض الصور (5)</button></div>
+    </article>
+
+    <article class="ev" data-f="milestone" data-g="launch">
+      <div class="ph"><figure class="print"><img src="img/launch-1.jpg" alt="فريق مستهل في يوم إطلاق الأندية"><figcaption class="cap">1 يناير 2026</figcaption></figure><figure class="print"><img src="img/launch-5.jpg" alt=""></figure></div>
+      <div class="body"><div class="tags"><span class="tag gold">محطة</span><span class="tag">الإطلاق</span></div>
+        <h3>إطلاق نادي مستهل</h3><div class="when">1 يناير 2026 · مقر ورث</div>
+        <p>انطلق النادي في يوم إطلاق الأندية الطلابية بإشراف شؤون الطلاب وبحضور قيادات المعهد. عرّفنا بالنادي واستقطبنا أعضاء من مختلف الكليات والبرامج.</p>
+        <button class="more" data-open="launch">عرض الصور (7)</button></div>
+    </article>
+
+  </div>
+</div></section>
+
+<section id="next" style="background:var(--bg-2);border-block:1px solid var(--line)"><div class="wrap">
+  <div class="sec-head"><h2>القادم</h2><p>ثلاثة تفعيلات قيد التنسيق لنوفمبر وديسمبر 2026، التنظيم كاملًا على النادي.</p></div>
+  <div class="events">
+    <article class="ev">
+      <div class="ph soon"><img class="mark" src="img/mark.png" alt=""></div>
+      <div class="body"><div class="tags"><span class="tag gold">ضيف مستهل</span><span class="tag">أونلاين · نوفمبر</span></div>
+        <h3>معرض «خط أحمر» مع معاذ العوفي</h3><div class="when">نوفمبر 2026 · لقاء أونلاين · تحت المناقشة</div>
+        <p>حوار مع الفنان والمصور معاذ العوفي حول معرضه ودور الفنان في ظل الظروف الراهنة، بأسئلة مباشرة من الطلاب.</p></div>
+    </article>
+    <article class="ev">
+      <div class="ph soon"><img class="mark" src="img/mark.png" alt=""></div>
+      <div class="body"><div class="tags"><span class="tag gold">ضيف مستهل</span><span class="tag">سرد الثقافي · ديسمبر</span></div>
+        <h3>من الفكرة إلى العرض السينمائي</h3><div class="when">الأسبوع الأخير من ديسمبر 2026 · ساعتان · مقترح للاعتماد</div>
+        <p>بمناسبة يوم السينما العالمي، جلسة مع نادي سينيراما: كيف تتحول الفكرة إلى فيلم وتُقدَّم عبر Pitch Deck، مع تطبيق على مشاريع طلابنا تمهيدًا لسدوس.</p></div>
+    </article>
+    <article class="ev">
+      <div class="ph soon"><img class="mark" src="img/mark.png" alt=""></div>
+      <div class="body"><div class="tags"><span class="tag gold">لقاء مع طالب</span><span class="tag">مقر المعرض</span></div>
+        <h3>معرض «التفاحة المنفردة» مع روان</h3><div class="when">خلال فترة المعرض · تحت التنسيق</div>
+        <p>روان، عضوة النادي، تعرض أعمالها. نعلن معرضها لطلاب المعهد ونلتقيها في مقره لتنقل تجربتها من الفكرة الأولى إلى صالة العرض.</p></div>
+    </article>
+  </div>
+</div></section>
+
+<section id="goals"><div class="wrap">
+  <div class="sec-head"><h2>أهدافنا لعام 2027</h2><p>تفعيل واحد كل شهر، بفائدة تستحق وقت الطالب، ونقل الخبرة لفريق جديد قبل تخرج المؤسسين نهاية 2027.</p></div>
+  <div class="goals">
+    <div class="goal"><h3>12 تفعيلًا في السنة</h3><p>روزنامة بتفعيل شهري مستقل، يكتمل في يوم واحد، ويُعلن قبل بداية الفصل.</p></div>
+    <div class="goal"><h3>فائدة مهنية واضحة</h3><p>مهارة، أو تجربة ممارس، أو فرصة للتعرف على القطاع الثقافي من الداخل.</p></div>
+    <div class="goal"><h3>تقدير المشاركة</h3><p>نقاط حضور للطلاب ونقاط أفكار للأعضاء، ومزايا معلنة بالتنسيق مع شؤون الطلاب.</p></div>
+    <div class="goal"><h3>إبراز مهارات الطلاب</h3><p>طالب يعلّم طالبًا، ومعارض الأعضاء، ومشاريعهم أمام ممارسين.</p></div>
+    <div class="goal"><h3>شراكة مع المعهد</h3><p>تعاون واضح مع شؤون الطلاب ومجتمع ورث في فعاليات المعهد وخدماته.</p></div>
+    <div class="goal"><h3>نادٍ يستمر</h3><p>قوالب وملفات تسليم وفريق جديد يقود قبل نهاية 2027.</p></div>
+  </div>
+  <div class="tracks"><span>طالب يعلّم طالبًا</span><span>زيارة استوديو</span><span>ضيف مستهل</span><span>من داخل ورث</span><span>تحدّي مستهل</span></div>
+</div></section>
+
+<footer id="about"><div class="wrap">
+  <div><img src="img/logo-white.png" alt="نادي مستهل" class="logo-dark"><div class="tag-line">نادٍ طلابي في معهد ورث، يقرّب الطالب من الممارس.</div><p style="margin:10px 0 0">تأسس في يناير 2026. ثلاثة أعضاء أساسيين وخمسة مساندون، ينفّذون كل شيء بالموجود.</p></div>
+  <div><h4>أقسام</h4><ul><li><a href="#done">ماذا أنجزنا</a></li><li><a href="#next">القادم</a></li><li><a href="#goals">أهدافنا</a></li></ul></div>
+  <div><h4>تابعنا</h4><ul><li>انستقرام: <span dir="ltr">@mustahel_club</span></li><li><a href="https://claude.ai/artifact/38fRbdt7PwUAN29KPWTQyL" target="_blank" rel="noopener">منصة مستهل: التصويت والنقاط</a></li></ul></div>
+</div></footer>
+
+<dialog class="lb" id="lb" aria-label="عرض الصور">
+  <div class="frame"><button class="x" data-lb="close" aria-label="إغلاق">×</button>
+    <button class="nav prev" data-lb="prev" aria-label="السابقة">›</button><button class="nav next" data-lb="next" aria-label="التالية">‹</button>
+    <img id="lbImg" src="" alt=""><div class="cap" id="lbCap"></div></div>
+</dialog>
+
+<script>
+const G={
+  noura:{cap:'من الفكرة إلى قطعة الأثاث · 11 نوفمبر 2026',imgs:['noura-1','noura-7','noura-2','noura-8','noura-3','noura-9','noura-4','noura-5','noura-6']},
+  apr:{cap:'جلسة حوارية · 21 أبريل 2026',imgs:['apr-1','apr-2','apr-3','apr-4','apr-5','apr-6']},
+  wrth:{cap:'مستهل × مجتمع ورث · فبراير 2026',imgs:['wrth-1','wrth-2','wrth-3','wrth-4','wrth-5']},
+  deans:{cap:'التعلّم بالتجربة · 16 فبراير 2026',imgs:['deans-2','deans-1','deans-3','deans-4','deans-5','deans-6','deans-poster']},
+  dream:{cap:'من الحلم إلى الحرفة · 19 يناير 2026',imgs:['dream-1','dream-2','dream-3','dream-4','dream-5']},
+  launch:{cap:'إطلاق نادي مستهل · 1 يناير 2026',imgs:['launch-1','launch-2','launch-3','launch-4','launch-5','launch-6','launch-7']},
+  jun:{cap:'ختام الفصل · 17 يونيو 2026',imgs:['jun-1']},
+  ghanem:{cap:'زيارة استوديو غانم · نوفمبر 2026',imgs:['nov-x2','nov-x1']},
+  bgm:{cap:'زيارة متحف الذهب الأسود · مايو 2026',imgs:['bgm-1','bgm-3','bgm-4','bgm-2']},
+  pink:{cap:'أكتوبر الوردي · 28 أكتوبر 2026',imgs:['pink-poster']},
+};
+let cur={g:null,i:0};
+const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap');
+function show(g,i){ const s=G[g]; if(!s) return; cur={g,i:(i+s.imgs.length)%s.imgs.length}; lbImg.src='img/'+s.imgs[cur.i]+'.jpg'; lbCap.textContent=s.cap+' · '+(cur.i+1)+'/'+s.imgs.length; if(!lb.open) lb.showModal(); }
+document.addEventListener('click',e=>{
+  const o=e.target.closest('[data-open]'); if(o){ show(o.dataset.open,0); return; }
+  const ph=e.target.closest('.ev .ph'); if(ph){ const g=ph.closest('.ev').dataset.g; if(g) show(g,0); return; }
+  const a=e.target.closest('[data-lb]'); if(a){ if(a.dataset.lb==='close') lb.close(); else show(cur.g,cur.i+(a.dataset.lb==='next'?1:-1)); return; }
+  if(e.target===lb) lb.close();
+  const f=e.target.closest('.filters button'); if(f){ const k=f.dataset.f; document.querySelectorAll('.filters button').forEach(b=>b.setAttribute('aria-pressed',String(b===f))); document.querySelectorAll('#events .ev').forEach(ev=>{ ev.classList.toggle('hidden',k!=='all'&&ev.dataset.f!==k); }); try{localStorage.setItem('mustahal.filter',k);}catch{} }
+});
+document.addEventListener('keydown',e=>{ if(!lb.open) return; if(e.key==='ArrowLeft') show(cur.g,cur.i+1); if(e.key==='ArrowRight') show(cur.g,cur.i-1); });
+document.querySelectorAll('.ev .ph').forEach(p=>{ if(p.closest('.ev').dataset.g) p.style.cursor='zoom-in'; });
+/* light theme swaps the logo */
+const mq=matchMedia('(prefers-color-scheme: light)');
+function logos(){ const light=document.documentElement.dataset.theme==='light'||(mq.matches&&document.documentElement.dataset.theme!=='dark'); document.querySelectorAll('.logo-dark').forEach(i=>i.src=light?'img/logo.png':'img/logo-white.png'); }
+logos(); mq.addEventListener('change',logos); new MutationObserver(logos).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+</script>
+
+</body>
+</html>
