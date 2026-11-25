@@ -46,17 +46,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 .vg{display:grid;gap:18px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
 .vg b{display:block;color:var(--gold);font-family:var(--f-display);font-size:15px;font-weight:700;margin-bottom:4px}
 .vg p{margin:0;color:var(--ink-2);font-size:15.5px;line-height:1.85}
-.cluster{position:relative;height:auto;aspect-ratio:1.18;max-height:520px}
-.print{position:absolute;background:var(--print);padding:8px 8px 30px;box-shadow:0 10px 26px var(--shadow),0 1px 3px var(--shadow);transform:rotate(var(--r,0deg));transition:transform .4s cubic-bezier(.2,.7,.2,1)}
-.print img{width:100%;height:100%;object-fit:cover;aspect-ratio:var(--ar,4/3);background:#ddd}
-.print .cap{position:absolute;bottom:5px;right:10px;left:10px;font-family:var(--f-display);font-weight:500;color:var(--print-ink);font-size:13px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;opacity:.85}
-.print:hover{transform:rotate(0deg) scale(1.03);z-index:5}
-.print::before{content:"";position:absolute;top:-8px;left:50%;width:34px;height:12px;margin-left:-17px;background:color-mix(in srgb,var(--gold) 50%,transparent);transform:rotate(-3deg)}
-.cluster .p1{width:46%;right:2%;top:6%;--r:-5deg;--ar:4/3}
-.cluster .p2{width:38%;right:50%;top:0;--r:4deg;--ar:4/3}
-.cluster .p3{width:34%;right:58%;top:46%;--r:-3deg;--ar:4/3}
-.cluster .p4{width:40%;right:10%;top:52%;--r:6deg;--ar:4/3}
-
+.slider{position:relative;background:var(--wall);aspect-ratio:3/2;overflow:hidden;min-width:0}
+.slider img{width:100%;height:100%;object-fit:cover;display:block}
+.slider .arr{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--brown);font-size:22px;line-height:1;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:background .2s}
+.slider .arr:hover{background:#fff}
+.slider .arr.prev{right:10px} .slider .arr.next{left:10px}
+.slider .n{position:absolute;bottom:10px;left:12px;background:rgba(43,26,18,.72);color:#fff;font-size:12px;padding:1px 9px;border-radius:999px;font-variant-numeric:tabular-nums;direction:ltr}
+.hero-slider{aspect-ratio:4/3;border-radius:14px}
 /* sections */
 section{padding-block:56px}
 section.alt{background:var(--bg-2);border-block:1px solid var(--line)}
@@ -68,12 +64,7 @@ section.alt{background:var(--bg-2);border-block:1px solid var(--line)}
 .events{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
 .ev{background:var(--print);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-width:0;transition:border-color .3s}
 .ev:hover{border-color:color-mix(in srgb,var(--gold) 50%,var(--line))}
-.ev .ph{position:relative;background:var(--wall);padding:18px 18px 8px;min-height:230px;display:grid;place-items:center;overflow:hidden}
-.ev .ph .print{position:relative;width:min(100%,320px);--r:-2.5deg;padding-bottom:26px}
-.ev .ph .print img{aspect-ratio:3/2}
-.ev .ph .print:nth-child(2){position:absolute;width:38%;right:10px;bottom:10px;--r:5deg;padding-bottom:8px}
-.ev .ph .print:nth-child(2) .cap{display:none}
-.ev .ph.soon{min-height:150px}
+.ev .ph.soon{position:relative;background:var(--wall);min-height:150px;display:grid;place-items:center}
 .ev .ph .mark{width:64px;opacity:.9}
 .ev .body{padding:18px 20px 20px;display:grid;gap:8px}
 .ev .tags{display:flex;gap:6px;flex-wrap:wrap}
@@ -123,7 +114,7 @@ footer img{height:30px;width:auto}
 
 @media (max-width:860px){
   .hero .wrap{grid-template-columns:1fr}
-  .cluster{order:-1;aspect-ratio:1.05;margin-bottom:8px}
+  .hero-slider{order:-1}
   dialog.lb .prev{right:6px} dialog.lb .next{left:6px}
 }
 @media (prefers-reduced-motion: reduce){ *{transition:none!important;scroll-behavior:auto} }
@@ -134,7 +125,7 @@ footer img{height:30px;width:auto}
 <header class="top"><div class="wrap">
   <img src="img/logo.png" alt="نادي مستهل" class="logo-swap">
   <nav aria-label="أقسام الصفحة">
-    <a href="#news">أخبار</a><a href="#community">تعاونات مجتمع ورث</a><a href="#sessions">جلسات النادي</a><a href="#next">القادم</a><a href="#team">الفريق</a><a href="#contact">تواصل</a>
+    <a href="#sessions">جلسات النادي</a><a href="#community">تعاونات مجتمع ورث</a><a href="#news">أخبار</a><a href="#next">القادم</a><a href="#team">الفريق</a><a href="#contact">تواصل</a>
   </nav>
 </div></header>
 
@@ -148,108 +139,64 @@ footer img{height:30px;width:auto}
       <div><b>رسالتنا</b><p>تفعيل دور الطلبة في المشهد الثقافي من خلال لقاءات نوعية تُسهم في تبادل المعرفة، ودعم التوجّه المهني، وبناء شبكة علاقات مع الهيئات والمؤسسات الثقافية.</p></div>
     </div>
   </div>
-  <div class="cluster" aria-hidden="true">
-    <figure class="print p1"><img src="img/deans-2.jpg" alt=""><figcaption class="cap">التعلّم بالتجربة · فبراير 2026</figcaption></figure>
-    <figure class="print p2"><img src="img/launch-1.jpg" alt=""><figcaption class="cap">يوم الإطلاق · يناير 2026</figcaption></figure>
-    <figure class="print p3"><img src="img/bgm-4.jpg" alt=""><figcaption class="cap">متحف الذهب الأسود · مايو 2026</figcaption></figure>
-    <figure class="print p4"><img src="img/noura-1.jpg" alt=""><figcaption class="cap">لقاء مع خبير · نوفمبر 2026</figcaption></figure>
-  </div>
-</div></section>
-
-<section id="news"><div class="wrap">
-  <div class="sec-head"><h2>أخبار</h2><p>محطات النادي.</p></div>
-  <div class="events">
-    <article class="ev" data-g="launch">
-      <div class="ph"><figure class="print"><img src="img/launch-1.jpg" alt="فريق مستهل في يوم إطلاق الأندية"><figcaption class="cap">1 يناير 2026</figcaption></figure><figure class="print"><img src="img/launch-5.jpg" alt=""></figure></div>
-      <div class="body"><div class="tags"><span class="tag gold">إطلاق</span></div>
-        <h3>إطلاق نادي مستهل</h3><div class="when">1 يناير 2026 · مقر ورث</div>
-        <p>انطلق النادي في يوم إطلاق الأندية الطلابية بإشراف شؤون الطلاب وبحضور قيادات المعهد، واستقطب أعضاء من مختلف الكليات والبرامج.</p>
-        <button class="more" data-open="launch">عرض الصور (7)</button></div>
-    </article>
-    <article class="ev" data-g="jun">
-      <div class="ph"><figure class="print"><img src="img/jun-1.jpg" alt="فريق النادي في حفل آخر الموسم"><figcaption class="cap">17 يونيو 2026</figcaption></figure></div>
-      <div class="body"><div class="tags"><span class="tag gold">حفل</span></div>
-        <h3>حفل آخر الموسم</h3><div class="when">17 يونيو 2026 · المعهد</div>
-        <p>ختام أول موسم للنادي وتكريم الفريق.</p>
-        <button class="more" data-open="jun">عرض الصور (1)</button></div>
-    </article>
-  </div>
-</div></section>
-
-<section id="community" class="alt"><div class="wrap">
-  <div class="sec-head"><h2>تعاونات مجتمع ورث</h2><p>فعاليات نظّمناها مع مجتمع ورث.</p></div>
-  <div class="events">
-    <article class="ev" data-g="wrth1">
-      <div class="ph"><figure class="print"><img src="img/wrth-1.jpg" alt="محاضرة المحافظة على التراث العمراني"><figcaption class="cap">فبراير 2026</figcaption></figure><figure class="print"><img src="img/wrth-5.jpg" alt=""></figure></div>
-      <div class="body"><div class="tags"><span class="tag gold">مجتمع ورث</span><span class="tag">تنظيم وإشراف</span></div>
-        <h3>المحافظة على التراث العمراني بين الترميم والتطوير</h3><div class="when">فبراير 2026 · مقر ورث</div>
-        <p>محاضرة ضمن فعاليات مجتمع ورث، تولى فيها النادي فريق التنظيم والإشراف على الحضور.</p>
-        <button class="more" data-open="wrth1">عرض الصور (3)</button></div>
-    </article>
-    <article class="ev" data-g="wrth2">
-      <div class="ph"><figure class="print"><img src="img/wrth-2.jpg" alt="فعالية مجتمع ورث"><figcaption class="cap">فبراير 2026</figcaption></figure><figure class="print"><img src="img/wrth-3.jpg" alt=""></figure></div>
-      <div class="body"><div class="tags"><span class="tag gold">مجتمع ورث</span><span class="tag">تنظيم وإشراف</span></div>
-        <h3>مستهل × مجتمع ورث</h3><div class="when">14 و28 فبراير 2026 · مقر ورث</div>
-        <p>تعاون لتنظيم فعاليات المجتمع في فبراير: تسجيل، استقبال، وإشراف على الورش والحضور.</p>
-        <button class="more" data-open="wrth2">عرض الصور (2)</button></div>
-    </article>
-  </div>
+  <div class="slider hero-slider" data-g="hero" data-i="0"><img src="img/deans-2.jpg" alt="من تفعيلات نادي مستهل"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/4</span></div>
+</div>
 </div></section>
 
 <section id="sessions"><div class="wrap">
   <div class="sec-head"><h2>جلسات النادي</h2><p>ما نظّمه النادي بنفسه: جلسات حوارية، زيارات، ولقاءات مع خبراء.</p></div>
   <div class="events">
 
-    <article class="ev" data-g="dream">
-      <div class="ph"><figure class="print"><img src="img/dream-1.jpg" alt="جلسة من الحلم إلى الحرفة"><figcaption class="cap">19 يناير 2026</figcaption></figure><figure class="print"><img src="img/dream-2.jpg" alt=""></figure></div>
+    <article class="ev" data-key="dream">
+      <div class="slider" data-g="dream" data-i="0"><img src="img/dream-1.jpg" alt="جلسة من الحلم إلى الحرفة" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/5</span></div>
       <div class="body"><div class="tags"><span class="tag gold">جلسة حوارية</span><span class="tag">مع نادي الخريجين</span></div>
         <h3>من الحلم إلى الحرفة</h3><div class="when">19 يناير 2026 · مقر ورث · 40 دقيقة</div>
         <p>مع الخريج فيصل الجارالله والطالب حماد الشمري عن برنامج البناء بالطين. أدار الحوار محمد آل عطفة.</p>
         <button class="more" data-open="dream">عرض الصور (5)</button></div>
     </article>
 
-    <article class="ev" data-g="deans">
-      <div class="ph"><figure class="print"><img src="img/deans-2.jpg" alt="جلسة التعلم بالتجربة"><figcaption class="cap">16 فبراير 2026</figcaption></figure><figure class="print"><img src="img/deans-poster.jpg" alt=""></figure></div>
+    <article class="ev" data-key="deans">
+      <div class="slider" data-g="deans" data-i="0"><img src="img/deans-2.jpg" alt="جلسة التعلم بالتجربة" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/7</span></div>
       <div class="body"><div class="tags"><span class="tag gold">جلسة حوارية</span><span class="tag">موسم الأندية</span></div>
         <h3>التعلّم بالتجربة: دور الأندية في بناء الطالب</h3><div class="when">16 فبراير 2026 · مقر ورث</div>
         <p>استضفنا عمداء كليات المعهد ضمن موسم الأندية الطلابية، مع نشاط تفاعلي وهدايا رمزية.</p>
         <button class="more" data-open="deans">عرض الصور (7)</button></div>
     </article>
 
-    <article class="ev" data-g="apr">
-      <div class="ph"><figure class="print"><img src="img/apr-1.jpg" alt="جلسة حكاية أبريل"><figcaption class="cap">21 أبريل 2026</figcaption></figure><figure class="print"><img src="img/apr-poster.jpg" alt=""></figure></div>
+    <article class="ev" data-key="apr">
+      <div class="slider" data-g="apr" data-i="0"><img src="img/apr-1.jpg" alt="جلسة حكاية أبريل" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/7</span></div>
       <div class="body"><div class="tags"><span class="tag gold">جلسة حوارية</span><span class="tag">اليوم العالمي للتراث</span></div>
         <h3>حكاية أبريل: من الماضي إلى العالم</h3><div class="when">21 أبريل 2026 · المعهد · ساعتان</div>
         <p>مع أ. ابتسام الوهيبي، مدير عام إدارة التراث الثقافي غير المادي في هيئة التراث، وأ. العنود البتال من قطاع الحرف اليدوية، عن دور الهيئة في حفظ التراث وتقديمه للعالم.</p>
         <button class="more" data-open="apr">عرض الصور (7)</button></div>
     </article>
 
-    <article class="ev" data-g="bgm">
-      <div class="ph"><figure class="print"><img src="img/bgm-1.jpg" alt="زيارة متحف الذهب الأسود"><figcaption class="cap">مايو 2026</figcaption></figure><figure class="print"><img src="img/bgm-2.jpg" alt=""></figure></div>
+    <article class="ev" data-key="bgm">
+      <div class="slider" data-g="bgm" data-i="0"><img src="img/bgm-1.jpg" alt="زيارة متحف الذهب الأسود" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/4</span></div>
       <div class="body"><div class="tags"><span class="tag gold">زيارة</span><span class="tag">مع نادي رواق المتاحف</span></div>
         <h3>زيارة متحف الذهب الأسود</h3><div class="when">مايو 2026 · اليوم العالمي للمتاحف</div>
         <p>جولة وحوار مع مدير المتحف جاك برسكيان عن المتحف كمكان حيّ للتبادل الثقافي.</p>
         <button class="more" data-open="bgm">عرض الصور (4)</button></div>
     </article>
 
-    <article class="ev" data-g="pink">
-      <div class="ph"><figure class="print"><img src="img/pink-poster.jpg" alt="إعلان جلسة أكتوبر الوردي"><figcaption class="cap">28 أكتوبر 2026</figcaption></figure></div>
+    <article class="ev" data-key="pink">
+      <div class="slider" data-g="pink" data-i="0"><img src="img/pink-poster.jpg" alt="إعلان جلسة أكتوبر الوردي" loading="lazy"></div>
       <div class="body"><div class="tags"><span class="tag gold">أونلاين</span><span class="tag">أكتوبر الوردي</span></div>
         <h3>وعيكِ أمانكِ… والكشف المبكر حياة</h3><div class="when">28 أكتوبر 2026 · عبر Teams · ساعة</div>
         <p>مع د. ملك علوي، استشارية طب الأشعة التشخيصية في مستشفى السعودي الألماني.</p>
         <button class="more" data-open="pink">عرض الإعلان</button></div>
     </article>
 
-    <article class="ev" data-g="ghanem">
-      <div class="ph"><figure class="print"><img src="img/nov-x2.jpg" alt="الفنان غانم في استوديوه"><figcaption class="cap">نوفمبر 2026</figcaption></figure><figure class="print"><img src="img/nov-x1.jpg" alt=""></figure></div>
+    <article class="ev" data-key="ghanem">
+      <div class="slider" data-g="ghanem" data-i="0"><img src="img/nov-x2.jpg" alt="الفنان غانم في استوديوه" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/2</span></div>
       <div class="body"><div class="tags"><span class="tag gold">زيارة</span><span class="tag">استوديو</span></div>
         <h3>زيارة استوديو غانم</h3><div class="when">نوفمبر 2026 · استوديو الفنان</div>
         <p>جلسة في مكتبة الاستوديو عن تجارب الفنان بين المعارض والورش، وحوار مفتوح مع الطلاب.</p>
         <button class="more" data-open="ghanem">عرض الصور (2)</button></div>
     </article>
 
-    <article class="ev" data-g="noura">
-      <div class="ph"><figure class="print"><img src="img/noura-1.jpg" alt="نورة سليمان تتحدث أمام الطلاب"><figcaption class="cap">11 نوفمبر 2026</figcaption></figure><figure class="print"><img src="img/noura-7.jpg" alt=""></figure></div>
+    <article class="ev" data-key="noura">
+      <div class="slider" data-g="noura" data-i="0"><img src="img/noura-1.jpg" alt="نورة سليمان تتحدث أمام الطلاب" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/9</span></div>
       <div class="body"><div class="tags"><span class="tag gold">لقاء مع خبير</span><span class="tag">حضوري</span></div>
         <h3>من الفكرة إلى قطعة الأثاث</h3><div class="when">11 نوفمبر 2026 · المعهد · ساعة</div>
         <p>مع المصممة نورة سليمان عن رحلة القطعة من الرسمة الأولى إلى التنفيذ والتسعير.</p>
@@ -258,6 +205,47 @@ footer img{height:30px;width:auto}
 
   </div>
 </div></section>
+
+<section id="community" class="alt"><div class="wrap">
+  <div class="sec-head"><h2>تعاونات مجتمع ورث</h2><p>فعاليات نظّمناها مع مجتمع ورث.</p></div>
+  <div class="events">
+    <article class="ev" data-key="wrth1">
+      <div class="slider" data-g="wrth1" data-i="0"><img src="img/wrth-1.jpg" alt="محاضرة المحافظة على التراث العمراني" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/3</span></div>
+      <div class="body"><div class="tags"><span class="tag gold">مجتمع ورث</span><span class="tag">تنظيم وإشراف</span></div>
+        <h3>المحافظة على التراث العمراني بين الترميم والتطوير</h3><div class="when">فبراير 2026 · مقر ورث</div>
+        <p>محاضرة ضمن فعاليات مجتمع ورث، تولى فيها النادي فريق التنظيم والإشراف على الحضور.</p>
+        <button class="more" data-open="wrth1">عرض الصور (3)</button></div>
+    </article>
+    <article class="ev" data-key="wrth2">
+      <div class="slider" data-g="wrth2" data-i="0"><img src="img/wrth-2.jpg" alt="فعالية مجتمع ورث" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/2</span></div>
+      <div class="body"><div class="tags"><span class="tag gold">مجتمع ورث</span><span class="tag">تنظيم وإشراف</span></div>
+        <h3>مستهل × مجتمع ورث</h3><div class="when">14 و28 فبراير 2026 · مقر ورث</div>
+        <p>تعاون لتنظيم فعاليات المجتمع في فبراير: تسجيل، استقبال، وإشراف على الورش والحضور.</p>
+        <button class="more" data-open="wrth2">عرض الصور (2)</button></div>
+    </article>
+  </div>
+</div></section>
+
+<section id="news"><div class="wrap">
+  <div class="sec-head"><h2>أخبار</h2><p>محطات النادي.</p></div>
+  <div class="events">
+    <article class="ev" data-key="launch">
+      <div class="slider" data-g="launch" data-i="0"><img src="img/launch-1.jpg" alt="فريق مستهل في يوم إطلاق الأندية" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/7</span></div>
+      <div class="body"><div class="tags"><span class="tag gold">إطلاق</span></div>
+        <h3>إطلاق نادي مستهل</h3><div class="when">1 يناير 2026 · مقر ورث</div>
+        <p>انطلق النادي في يوم إطلاق الأندية الطلابية بإشراف شؤون الطلاب وبحضور قيادات المعهد، واستقطب أعضاء من مختلف الكليات والبرامج.</p>
+        <button class="more" data-open="launch">عرض الصور (7)</button></div>
+    </article>
+    <article class="ev" data-key="jun">
+      <div class="slider" data-g="jun" data-i="0"><img src="img/jun-1.jpg" alt="فريق النادي في حفل آخر الموسم" loading="lazy"></div>
+      <div class="body"><div class="tags"><span class="tag gold">حفل</span></div>
+        <h3>حفل آخر الموسم</h3><div class="when">17 يونيو 2026 · المعهد</div>
+        <p>ختام أول موسم للنادي وتكريم الفريق.</p>
+        <button class="more" data-open="jun">عرض الصور (1)</button></div>
+    </article>
+  </div>
+</div></section>
+
 
 <section id="next" class="alt"><div class="wrap">
   <div class="sec-head"><h2>القادم</h2><p>ثلاثة تفعيلات قيد التنسيق.</p></div>
@@ -316,6 +304,7 @@ footer img{height:30px;width:auto}
 
 <script>
 const G={
+  hero:{cap:'نادي مستهل',imgs:['deans-2','launch-1','bgm-4','noura-1']},
   launch:{cap:'إطلاق نادي مستهل · 1 يناير 2026',imgs:['launch-1','launch-2','launch-3','launch-4','launch-5','launch-6','launch-7']},
   jun:{cap:'حفل آخر الموسم · 17 يونيو 2026',imgs:['jun-1']},
   wrth1:{cap:'المحافظة على التراث العمراني · فبراير 2026',imgs:['wrth-1','wrth-4','wrth-5']},
@@ -331,14 +320,16 @@ const G={
 let cur={g:null,i:0};
 const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap');
 function show(g,i){ const s=G[g]; if(!s) return; cur={g,i:(i+s.imgs.length)%s.imgs.length}; lbImg.src='img/'+s.imgs[cur.i]+'.jpg'; lbCap.textContent=s.cap+' · '+(cur.i+1)+'/'+s.imgs.length; if(!lb.open) lb.showModal(); }
+function setSlide(el,i){ const g=el.dataset.g, imgs=G[g].imgs; i=(i+imgs.length)%imgs.length; el.dataset.i=i; el.querySelector('img').src='img/'+imgs[i]+'.jpg'; const n=el.querySelector('.n b'); if(n) n.textContent=i+1; }
 document.addEventListener('click',e=>{
+  const ar=e.target.closest('[data-sl]'); if(ar){ const el=ar.closest('.slider'); setSlide(el, Number(el.dataset.i)+(ar.dataset.sl==='next'?1:-1)); return; }
   const o=e.target.closest('[data-open]'); if(o){ show(o.dataset.open,0); return; }
-  const ph=e.target.closest('.ev .ph'); if(ph){ const g=ph.closest('.ev').dataset.g; if(g) show(g,0); return; }
+  const im=e.target.closest('.slider img'); if(im){ const el=im.closest('.slider'); if(el.dataset.g!=='hero') show(el.dataset.g, Number(el.dataset.i)); return; }
   const a=e.target.closest('[data-lb]'); if(a){ if(a.dataset.lb==='close') lb.close(); else show(cur.g,cur.i+(a.dataset.lb==='next'?1:-1)); return; }
   if(e.target===lb) lb.close();
 });
 document.addEventListener('keydown',e=>{ if(!lb.open) return; if(e.key==='ArrowLeft') show(cur.g,cur.i+1); if(e.key==='ArrowRight') show(cur.g,cur.i-1); });
-document.querySelectorAll('.ev .ph').forEach(p=>{ if(p.closest('.ev').dataset.g) p.style.cursor='zoom-in'; });
+document.querySelectorAll('.slider:not(.hero-slider) img').forEach(i=>i.style.cursor='zoom-in');
 </script>
 
 </body>
