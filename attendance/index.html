@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../img/mark.png">
+<script src="../js/config.js"></script>
+<script src="../js/api.js"></script>
+<title>حضور الطلاب</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
+<style>
+/* Layout: attendance desk for the Mustahal team, and a read-only monthly board for students. Light wall, brown ink, one gold accent, Wrth heritage icons. Light by choice. */
+:root{ --bg:#f6f4f0; --bg-2:#efebe4; --card:#ffffff; --ink:#2b1a12; --ink-2:#55453b; --mute:#857568; --line:#e2dbd0; --gold:#a8822f; --gold-soft:#f3e8cf; --brown:#4a1e10; --tag:#f1ebe1; --good:#2e6b4e; --good-soft:#e3efe7; --warn:#9a5a1c; --warn-soft:#f6e7d3; --bad:#8d2b2b; --bad-soft:#f3dede;
+  --f-display:"Tajawal","IBM Plex Sans Arabic",system-ui,sans-serif; --f-body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;direction:rtl}
+button,input,select{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;line-height:1.3;margin:0;color:var(--brown);text-wrap:balance}
+h2{font-size:1.5rem} h3{font-size:1.15rem}
+.wrap{max-width:1000px;margin-inline:auto;padding-inline:16px;padding-block:0 56px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+.top .wrap{display:flex;align-items:center;gap:14px;padding-block:10px;flex-wrap:wrap;min-width:0}
+.top img{height:34px;width:auto}
+.top .sub{color:var(--mute);font-size:13px}
+.pill{margin-inline-start:auto;display:inline-block;padding:2px 10px;border:1px solid var(--line);border-radius:999px;font-size:12.5px;background:var(--tag);color:var(--ink-2)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.card.soft{background:var(--bg-2)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap} .spread{justify-content:space-between}
+.stack{display:grid;gap:16px;margin-top:18px}
+.eyebrow{font-size:12.5px;color:var(--gold);font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.eyebrow img{width:16px;height:16px}
+.muted{color:var(--mute)} .small{font-size:13px}
+.btn{border:1px solid var(--line);background:var(--bg-2);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600;line-height:1.4}
+.btn:hover{border-color:var(--gold)}
+.btn.primary{background:var(--brown);color:#fff;border-color:var(--brown)}
+.btn.gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+.btn.sm{padding:4px 10px;font-size:13px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+label.f{display:grid;gap:4px;font-size:13px;color:var(--mute)}
+label.f>input,label.f>select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--ink);width:100%;min-width:0}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.rules{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.rule{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.rule b{display:block;font-family:var(--f-display);font-size:1.5rem;color:var(--gold);line-height:1.2;font-weight:800}
+.att-list{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.att-list label{display:flex;gap:8px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer;font-size:14px}
+.att-list label.on{border-color:var(--good);background:var(--good-soft)}
+.lb{display:grid;gap:6px}
+.lb .r{display:grid;grid-template-columns:2.2rem 1fr auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.lb .r .n{font-family:var(--f-display);font-weight:800;color:var(--gold);font-size:1.2rem}
+.lb .r.top{border-color:var(--gold);background:linear-gradient(180deg,var(--gold-soft),var(--card))}
+.lb .r .d{color:var(--mute);font-size:12.5px}
+.pts{font-family:var(--f-display);font-weight:800;color:var(--gold);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.notice{padding:10px 14px;border-radius:8px;background:var(--warn-soft);color:var(--warn);font-size:14px}
+.notice.ok{background:var(--good-soft);color:var(--good)} .notice.bad{background:var(--bad-soft);color:var(--bad)}
+.empty{padding:18px;border:1px dashed var(--line);border-radius:10px;color:var(--mute);text-align:center}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline-start:16px;background:var(--brown);color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:none}
+.ev-list{display:flex;gap:8px;flex-wrap:wrap}
+.ev-list button{border:1px solid var(--line);background:var(--card);padding:6px 12px;border-radius:999px;font-size:13.5px;cursor:pointer}
+.ev-list button[aria-pressed="true"]{background:var(--gold);color:#fff;border-color:var(--gold);font-weight:700}
+.pub{max-width:720px;margin-inline:auto}
+.pub .hero{text-align:center;padding:26px 16px 10px}
+.pub .hero img{height:44px;width:auto;margin-inline:auto}
+.tbl{overflow-x:auto} table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--line)} th{color:var(--mute);font-size:12.5px}
+
+dialog.login{max-width:min(94vw,520px)} .login .in{padding:22px;display:grid;gap:12px}
+.login input{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%}
+.setup{padding:14px 16px;border:1px dashed var(--line);border-radius:10px;background:var(--card);color:var(--ink-2);font-size:14px;line-height:1.8}
+.setup code{background:var(--bg-2);padding:1px 6px;border-radius:4px;font-size:13px}
+@media (prefers-reduced-motion: reduce){ .toast{transition:none} }
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <img src="../img/logo.png" alt="نادي مستهل">
+  <div><div style="font-family:var(--f-display);font-weight:800;color:var(--brown);line-height:1.2">حضور الطلاب</div><div class="sub">نادي مستهل · نادي رواق المتاحف</div></div>
+  <span class="pill" id="roleBox">جارٍ التحميل…</span>
+</div></header>
+<div class="wrap">
+  <div id="status"></div>
+  <div id="app"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const KIND={mustahal:'مستهل',riwaq:'رواق المتاحف',other:'أخرى'};
+const MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+let uid='',mode='loading',evSel='',smonth=null,studentQ='';
+const S={events:[],students:[],attendance:[],boards:[],loaded:false};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const nowIso=()=>new Date().toISOString(); const ym=iso=>(iso||'').slice(0,7);
+const monthLabel=k=>{ if(!k) return '—'; const [y,m]=k.split('-').map(Number); return `${MONTHS[m-1]||''} ${y}`; };
+const fmtDate=iso=>{ if(!iso) return '—'; const d=new Date(iso); return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`; };
+const sortBy=(arr,f,desc)=>[...arr].sort((a,b)=>{const x=f(a),y=f(b);return (x>y?1:x<y?-1:0)*(desc?-1:1)});
+function toast(msg,kind){ const t=$('#toast'); t.textContent=msg; t.className='toast show'+(kind?' '+kind:''); clearTimeout(toast._t); toast._t=setTimeout(()=>t.className='toast',2600); }
+function setStatus(html,cls){ $('#status').innerHTML=html?`<div class="notice ${cls||''}" style="margin:16px 0">${html}</div>`:''; }
+function counts(monthKey){ const by={}; for(const a of S.attendance){ if(monthKey&&ym(a.at)!==monthKey) continue; by[a.studentId]=(by[a.studentId]||0)+1; } return sortBy(S.students.map(st=>({...st,count:by[st.id]||0})),st=>st.count,true); }
+
+const API=window.MustahalAPI; let pollTimer=null;
+async function boot(){
+  render();
+  if(!API.configured()){ mode='none'; setStatus('<div class="setup"><b>الخادم غير مربوط بعد.</b> ضعي رابط Apps Script في <code>js/config.js</code>.</div>',''); render(); return; }
+  if(API.auth.pin){ mode='team'; } else { mode='student'; }
+  await refresh();
+  pollTimer=setInterval(()=>{ if(!document.hidden) refresh(); },20000);
+}
+async function refresh(){
+  try{
+    if(mode==='team'){ const d=await API.getAll(); S.events=d.events||[]; S.students=d.students||[]; S.attendance=d.attendance||[]; S.boards=d.boards||[]; if(!evSel&&S.events.length) evSel=sortBy(S.events,e=>e.date||'',true)[0].id; }
+    else { S.boards=await API.getPublic(); }
+    S.loaded=true; setStatus(''); render();
+  }catch(e){ console.error(e); if(String(e.message)==='pin'){ API.auth.pin=''; mode='student'; setStatus('رمز الفريق غير صحيح.','bad'); render(); } else setStatus('تعذّر الوصول للخادم.','bad'); }
+}
+const _origDb=API.db; const db={ doc(p){ const d=_origDb.doc(p); return { set:async x=>{await d.set(x); await refresh();}, update:async x=>{await d.update(x); await refresh();}, delete:async()=>{await d.delete(); await refresh();} }; } };
+function openLogin(){
+  let dlg=document.getElementById('loginDlg');
+  if(!dlg){ dlg=document.createElement('dialog'); dlg.id='loginDlg'; dlg.className='login'; document.body.appendChild(dlg); }
+  dlg.innerHTML=`<form class="in" id="loginForm"><h2>دخول الفريق</h2><p class="muted small" style="margin:0">لتسجيل الحضور أدخل رمز الأعضاء.</p><label class="f">رمز الأعضاء<input name="pin" type="password" required autocomplete="off"></label><div class="row"><button class="btn primary">دخول</button><button type="button" class="btn ghost" data-act="close-login">إلغاء</button></div></form>`;
+  if(!dlg.open) dlg.showModal();
+}
+function render(){ const rb=$('#roleBox'); rb.innerHTML= mode==='team'?'فريق مستهل · <button class="btn sm ghost" data-act="logout">خروج</button>':mode==='student'?'لوحة الطلاب · <button class="btn sm ghost" data-act="login">دخول الفريق</button>':'…'; if(mode==='team') renderTeam(); else renderStudent(); }
+
+function renderTeam(){
+  const cur=ym(nowIso()); if(!smonth) smonth=cur;
+  const months=[...new Set(S.attendance.map(a=>ym(a.at)))].sort().reverse(); if(!months.includes(cur)) months.unshift(cur);
+  const rows=counts(smonth), all=counts(null); const top=rows[0]&&rows[0].count>0?rows[0]:null;
+  const ev=S.events.find(e=>e.id===evSel); const present=new Set(S.attendance.filter(a=>a.eventId===evSel).map(a=>a.studentId));
+  const q=studentQ.trim(); const list=sortBy(S.students.filter(st=>!q||st.name.includes(q)||(st.number||'').includes(q)),st=>st.name);
+  const pub=S.boards.find(b=>b.id==='students_'+smonth);
+  $('#app').innerHTML=`<div class="stack">
+  <div class="card soft"><div class="eyebrow"><img src="../img/ic-contact-g.png" alt="">فكرة البرنامج</div><p style="margin:0;color:var(--ink-2)">نسجّل حضور الطالب في فعاليات نادي مستهل ونادي رواق المتاحف. نهاية كل شهر نعرف كم مرة حضر وترتيبه، ونعلن الأعلى حضورًا.</p>
+    <div class="rules" style="margin-top:10px"><div class="rule"><b>+1</b>لكل حضور مسجّل</div><div class="rule"><b>شهريًا</b>ترتيب الطلاب ويُعلن الأعلى حضورًا</div><div class="rule"><b>المزايا</b>دعوات من ورث لمجتمع ورث، ومقابلة قصيرة في مجلة ورث وأخبار النادي</div></div></div>
+  <div class="card"><div class="eyebrow"><img src="../img/ic-next-g.png" alt="">الفعالية</div>
+    <div class="ev-list">${sortBy(S.events,e=>e.date||'',true).map(e=>`<button data-ev="${esc(e.id)}" aria-pressed="${e.id===evSel}">${esc(e.title)} <span class="small" style="opacity:.8">· ${esc(KIND[e.kind]||e.kind||'')} · ${fmtDate(e.date)}</span></button>`).join('')||'<span class="muted small">لا فعاليات بعد.</span>'}</div>
+    <form id="eventForm" class="form" style="margin-top:12px"><label class="f">فعالية جديدة<input name="title" required placeholder="مثال: لقاء خط أحمر، محاضرة مجتمع ورث"></label><label class="f">التاريخ<input name="date" type="date" required value="${nowIso().slice(0,10)}"></label><label class="f">الجهة<select name="kind"><option value="mustahal">نادي مستهل</option><option value="riwaq">نادي رواق المتاحف</option></select></label><div style="align-self:end"><button class="btn">إضافة الفعالية</button></div></form></div>
+  ${ev?`<div class="card"><div class="row spread"><div class="eyebrow"><img src="../img/ic-team-g.png" alt="">تسجيل الحضور في «${esc(ev.title)}» · ${present.size} حاضر</div><input id="studentQ" value="${esc(studentQ)}" placeholder="بحث بالاسم أو الرقم" style="padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);max-width:220px"></div>
+    <div class="att-list" style="margin-top:8px">${list.map(st=>`<label class="${present.has(st.id)?'on':''}"><input type="checkbox" data-att="${esc(st.id)}" ${present.has(st.id)?'checked':''}> <span>${esc(st.name)} <span class="small muted">${esc(st.number||'')}</span></span></label>`).join('')||'<div class="empty">لا طلاب بعد. أضيفي أول طالب.</div>'}</div>
+    <form id="studentForm" class="form" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><label class="f">طالب جديد: الاسم<input name="name" required></label><label class="f">الرقم الجامعي<input name="number" inputmode="numeric"></label><label class="f">الكلية أو البرنامج<input name="college"></label><label style="display:flex;gap:8px;align-items:center;font-size:13.5px;color:var(--ink-2);align-self:end"><input type="checkbox" name="consent" checked> موافق على نشر اسمه</label><div style="align-self:end"><button class="btn primary">إضافة وتسجيل حضوره</button></div></form></div>`:''}
+  <div class="grid">
+    <div class="card"><div class="row spread"><div class="eyebrow"><img src="../img/ic-team-g.png" alt="">ترتيب الطلاب</div><select id="smonthSel" style="padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card)">${months.map(m=>`<option value="${m}" ${m===smonth?'selected':''}>${monthLabel(m)}</option>`).join('')}</select></div>
+      ${top?`<div class="notice ok" style="margin-bottom:10px">الأعلى حضورًا في ${monthLabel(smonth)}: <b>${esc(top.name)}</b> (${top.count})</div>`:''}
+      <div class="lb">${rows.filter(r=>r.count>0).map((st,i)=>`<div class="r ${i===0?'top':''}"><span class="n">${i+1}</span><span>${esc(st.name)}<div class="d">${esc(st.college||'')}${st.consent===false?' · لا يُنشر اسمه':''}</div></span><span class="pts">${st.count}</span></div>`).join('')||'<div class="empty">لا حضور مسجّل في هذا الشهر.</div>'}</div>
+      <div class="row" style="margin-top:12px"><button class="btn gold" data-act="publish" ${rows.some(r=>r.count>0)?'':'disabled'}>نشر ترتيب ${monthLabel(smonth)} للطلاب</button>${pub?`<span class="small muted">نُشر ${fmtDate(pub.publishedAt)}</span>`:''}</div>
+      <p class="small muted" style="margin:6px 0 0">النشر يعرض الأسماء وعدد مرات الحضور فقط، ولمن وافق على النشر.</p></div>
+    <div class="card"><div class="eyebrow"><img src="../img/ic-news-g.png" alt="">الإجمالي منذ البداية</div><div class="lb">${all.filter(r=>r.count>0).map((st,i)=>`<div class="r"><span class="n">${i+1}</span><span>${esc(st.name)}</span><span class="pts">${st.count}</span></div>`).join('')||'<div class="empty">لا حضور بعد.</div>'}</div><p class="small muted" style="margin:10px 0 0">${S.students.length} طالب · ${S.attendance.length} حضور · ${S.events.length} فعالية</p></div>
+  </div></div>`;
+}
+function renderStudent(){
+  const boards=sortBy(S.boards.filter(b=>b.id.startsWith('students_')),b=>b.month,true); const b=boards[0];
+  $('#app').innerHTML=`<div class="pub stack"><div class="hero"><img src="../img/mark.png" alt=""><h2 style="margin-top:10px">لوحة حضور الطلاب</h2><p class="muted" style="margin:4px 0 0">كل حضور لفعالية من فعاليات مستهل أو رواق المتاحف يُحسب لك. نهاية كل شهر نعلن الأعلى حضورًا.</p></div>
+    ${b?`<div class="card"><div class="eyebrow"><img src="../img/ic-team-g.png" alt="">ترتيب ${monthLabel(b.month)}</div>${b.top?`<div class="notice ok" style="margin-bottom:10px">الأعلى حضورًا: <b>${esc(b.top)}</b></div>`:''}<div class="lb">${(b.rows||[]).map((r,i)=>`<div class="r ${i===0?'top':''}"><span class="n">${i+1}</span><span>${esc(r.name)}</span><span class="pts">${r.count}</span></div>`).join('')}</div><p class="small muted" style="margin:8px 0 0">نُشر ${fmtDate(b.publishedAt)}</p></div>`:`<div class="empty">${S.loaded?'أول ترتيب يُنشر نهاية الشهر الحالي.':'جارٍ التحميل…'}</div>`}
+    ${boards.length>1?`<details class="card"><summary style="cursor:pointer;font-weight:700">الأشهر السابقة</summary>${boards.slice(1).map(x=>`<h3 style="margin:10px 0 4px">${monthLabel(x.month)}</h3><div class="lb">${(x.rows||[]).map((r,i)=>`<div class="r"><span class="n">${i+1}</span><span>${esc(r.name)}</span><span class="pts">${r.count}</span></div>`).join('')}</div>`).join('')}</details>`:''}
+    <div class="card soft"><div class="eyebrow"><img src="../img/ic-contact-g.png" alt="">مزايا الطالب الأعلى حضورًا</div><ul style="margin:0;padding-inline-start:18px;color:var(--ink-2)"><li>دعوات من ورث لفعاليات مجتمع ورث.</li><li>مقابلة قصيرة تُنشر في مجلة ورث وفي صفحة أخبار نادي مستهل.</li></ul></div>
+    <p class="small muted" style="text-align:center">يسجّل الحضور فريق مستهل عند باب الفعالية. لأي اعتراض راجع الفريق خلال أسبوعين.</p></div>`;
+}
+
+document.body.addEventListener('click',async e=>{
+  const ev=e.target.closest('[data-ev]'); if(ev){ evSel=ev.dataset.ev; studentQ=''; render(); return; }
+  const lb=e.target.closest('[data-act="login"]'); if(lb){ openLogin(); return; }
+  const cl=e.target.closest('[data-act="close-login"]'); if(cl){ document.getElementById('loginDlg').close(); return; }
+  const lo=e.target.closest('[data-act="logout"]'); if(lo){ API.auth.pin=''; API.auth.admin=''; location.reload(); return; }
+  const b=e.target.closest('[data-act]'); if(!b||mode!=='team') return;
+  try{ if(b.dataset.act==='publish'){ const rows=counts(smonth).filter(r=>r.count>0&&r.consent!==false).map(r=>({name:r.name,count:r.count})); await db.doc('public/students_'+smonth).set({month:smonth,rows,top:rows[0]?.name||'',publishedAt:nowIso(),by:'team'}); toast(`نُشر ترتيب ${monthLabel(smonth)} (${rows.length} اسم)`,'ok'); } }
+  catch(err){ console.error(err); toast('ما انحفظ: '+(err.code||err.message),'bad'); }
+});
+document.body.addEventListener('change',async e=>{
+  const t=e.target;
+  if(t.id==='smonthSel'){ smonth=t.value; render(); return; }
+  if(t.dataset.att&&evSel){ const id=evSel+'_'+t.dataset.att; try{ if(t.checked) await db.doc('attendance/'+id).set({eventId:evSel,studentId:t.dataset.att,at:(S.events.find(x=>x.id===evSel)?.date||nowIso().slice(0,10))+'T12:00:00Z',by:uid||''}); else await db.doc('attendance/'+id).delete(); }catch(err){ toast('ما انحفظ: '+(err.code||err.message),'bad'); } }
+});
+document.body.addEventListener('input',e=>{ if(e.target.id==='studentQ'){ studentQ=e.target.value; render(); const i=$('#studentQ'); if(i){i.focus(); i.setSelectionRange(i.value.length,i.value.length);} } });
+document.body.addEventListener('submit',async e=>{
+  const f=e.target; e.preventDefault(); const d=Object.fromEntries(new FormData(f).entries());
+  if(f.id==='loginForm'){ API.auth.pin=(d.pin||'').trim(); document.getElementById('loginDlg').close(); mode='team'; await refresh(); return; }
+  try{
+    if(f.id==='eventForm'){ const id=newId(); await db.doc('events/'+id).set({title:d.title.trim(),date:d.date,kind:d.kind,createdAt:nowIso(),by:uid||''}); evSel=id; f.reset(); toast('أُضيفت الفعالية','ok'); }
+    else if(f.id==='studentForm'){ const id=newId(); await db.doc('students/'+id).set({name:d.name.trim(),number:(d.number||'').trim(),college:(d.college||'').trim(),consent:!!d.consent,createdAt:nowIso(),by:uid||''}); if(evSel){ await db.doc('attendance/'+evSel+'_'+id).set({eventId:evSel,studentId:id,at:(S.events.find(x=>x.id===evSel)?.date||nowIso().slice(0,10))+'T12:00:00Z',by:uid||''}); } f.reset(); toast('أُضيف الطالب وسُجّل حضوره','ok'); }
+  }catch(err){ console.error(err); toast('ما انحفظ: '+(err.code||err.message),'bad'); }
+});
+boot();
+</script>
+
+</body>
+</html>

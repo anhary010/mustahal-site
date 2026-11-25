@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../img/mark.png">
+<script src="../js/config.js"></script>
+<script src="../js/api.js"></script>
+<title>منصة مستهل</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
+<style>
+/* Layout: internal members' board. Light wall, brown ink, one gold accent, Wrth heritage icons; Tajawal display over Plex Arabic body. Light by choice. */
+:root{
+  --bg:#f6f4f0; --bg-2:#efebe4; --card:#ffffff; --ink:#2b1a12; --ink-2:#55453b; --mute:#857568; --line:#e2dbd0;
+  --gold:#a8822f; --gold-soft:#f3e8cf; --brown:#4a1e10; --tag:#f1ebe1;
+  --good:#2e6b4e; --good-soft:#e3efe7; --warn:#9a5a1c; --warn-soft:#f6e7d3; --bad:#8d2b2b; --bad-soft:#f3dede;
+  --f-display:"Tajawal","IBM Plex Sans Arabic",system-ui,sans-serif; --f-body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;direction:rtl}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;line-height:1.3;margin:0;color:var(--brown);text-wrap:balance}
+h2{font-size:1.5rem} h3{font-size:1.15rem}
+a{color:inherit}
+.wrap{max-width:1100px;margin-inline:auto;padding-inline:16px;padding-block:0 56px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* header */
+.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+.top .wrap{display:flex;align-items:center;gap:14px;padding-block:10px;flex-wrap:wrap;min-width:0}
+.top img{height:34px;width:auto}
+.top .sub{color:var(--mute);font-size:13px}
+.me{margin-inline-start:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13.5px;color:var(--ink-2)}
+.me b{color:var(--brown)}
+.pill{display:inline-block;padding:2px 10px;border:1px solid var(--line);border-radius:999px;font-size:12.5px;background:var(--tag);color:var(--ink-2)}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);margin-block:0 20px;scrollbar-width:none;min-width:0}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:12px 12px;cursor:pointer;color:var(--mute);white-space:nowrap;font-weight:600;display:flex;gap:6px;align-items:center}
+nav.tabs button img{width:18px;height:18px;opacity:.85}
+nav.tabs button[aria-selected="true"]{color:var(--brown);border-bottom-color:var(--gold)}
+section[role="tabpanel"]{display:grid;gap:18px}
+
+/* blocks */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.card.soft{background:var(--bg-2)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.spread{justify-content:space-between}
+.stack{display:grid;gap:10px}
+.eyebrow{font-size:12.5px;color:var(--gold);font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.eyebrow img{width:16px;height:16px}
+.muted{color:var(--mute)} .small{font-size:13px}
+.btn{border:1px solid var(--line);background:var(--bg-2);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600;line-height:1.4}
+.btn:hover{border-color:var(--gold)}
+.btn.primary{background:var(--brown);color:#fff;border-color:var(--brown)}
+.btn.gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--bad);border-color:var(--bad);background:transparent}
+.btn.sm{padding:4px 10px;font-size:13px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn.voted{background:var(--gold-soft);border-color:var(--gold);color:var(--brown)}
+label.f{display:grid;gap:4px;font-size:13px;color:var(--mute)}
+label.f>input,label.f>select,label.f>textarea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--ink);width:100%;min-width:0}
+textarea{min-height:76px;resize:vertical}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.form .full{grid-column:1/-1}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+th,td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:700;color:var(--mute);font-size:12.5px;white-space:nowrap}
+td.num,th.num{text-align:left}
+.chip{display:inline-block;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;border:1px solid transparent}
+.chip.voting{background:var(--gold-soft);color:var(--brown);border-color:#e7d6ad}
+.chip.selected{background:var(--warn-soft);color:var(--warn)}
+.chip.active{background:var(--good-soft);color:var(--good)}
+.chip.closed{background:var(--tag);color:var(--mute)}
+.chip.dropped{background:var(--bad-soft);color:var(--bad)}
+.chip.t-pending{background:var(--warn-soft);color:var(--warn)}
+.chip.t-assigned{background:var(--gold-soft);color:var(--brown)}
+.chip.t-review{background:#e8e4f3;color:#4a3d7a}
+.chip.t-done{background:var(--good-soft);color:var(--good)}
+.task{grid-template-columns:1fr auto 0}
+.pts{font-family:var(--f-display);font-weight:800;color:var(--gold);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.idea{display:grid;gap:8px}
+.idea .votes{display:flex;gap:8px;align-items:center}
+.idea .bar{flex:1;height:8px;background:var(--bg-2);border-radius:6px;overflow:hidden}
+.idea .bar i{display:block;height:100%;background:var(--gold)}
+.idea .who{color:var(--mute);font-size:13px}
+.tasks{display:grid;gap:6px;margin-top:6px}
+.task{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);font-size:14px}
+.task .by{color:var(--mute);font-size:12.5px}
+.lb{display:grid;gap:6px}
+.lb .r{display:grid;grid-template-columns:2.2rem 1fr auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.lb .r .n{font-family:var(--f-display);font-weight:800;color:var(--gold);font-size:1.2rem}
+.lb .r.top{border-color:var(--gold);background:linear-gradient(180deg,var(--gold-soft),var(--card))}
+.lb .r .d{color:var(--mute);font-size:12.5px}
+.notice{padding:10px 14px;border-radius:8px;background:var(--warn-soft);color:var(--warn);font-size:14px}
+.alert{margin-bottom:18px;padding:14px 16px;border:1px solid #e7d6ad;border-right:4px solid var(--gold);border-radius:10px;background:var(--gold-soft)}
+.alert ul{margin:0;padding-inline-start:18px;display:grid;gap:8px;color:var(--ink)}
+.alert li .btn{margin-inline-start:4px;vertical-align:middle}
+.badge{display:inline-block;min-width:20px;padding:0 6px;border-radius:999px;background:var(--bad);color:#fff;font-size:11.5px;line-height:20px;text-align:center;font-weight:700}
+.notice.ok{background:var(--good-soft);color:var(--good)}
+.notice.bad{background:var(--bad-soft);color:var(--bad)}
+.empty{padding:18px;border:1px dashed var(--line);border-radius:10px;color:var(--mute);text-align:center}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline-start:16px;background:var(--brown);color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:none}
+.rules{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.rule{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.rule b{display:block;font-family:var(--f-display);font-size:1.5rem;color:var(--gold);line-height:1.2;font-weight:800}
+.who-grid{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.who-grid button{text-align:right;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;display:grid;gap:2px}
+.who-grid button:hover{border-color:var(--gold)}
+.who-grid button span{color:var(--mute);font-size:12.5px}
+.team-h{font-family:var(--f-display);font-weight:800;color:var(--brown);margin:10px 0 4px}
+dialog{border:0;border-radius:14px;padding:0;max-width:min(94vw,560px);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(43,26,18,.55)}
+dialog .in{padding:22px}
+.att-list{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.att-list label{display:flex;gap:8px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer;font-size:14px}
+.att-list label.on{border-color:var(--good);background:var(--good-soft)}
+.pub{max-width:720px;margin-inline:auto;display:grid;gap:16px;padding-block:24px}
+.pub .hero{text-align:center;padding:20px 16px 8px}
+.pub .hero img{height:44px;width:auto;margin-inline:auto}
+
+dialog.login{max-width:min(94vw,520px)} .login .in{padding:22px;display:grid;gap:12px}
+.login input{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%}
+.setup{padding:14px 16px;border:1px dashed var(--line);border-radius:10px;background:var(--card);color:var(--ink-2);font-size:14px;line-height:1.8}
+.setup code{background:var(--bg-2);padding:1px 6px;border-radius:4px;font-size:13px}
+@media (prefers-reduced-motion: reduce){ .toast{transition:none} }
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <img src="../img/logo.png" alt="نادي مستهل">
+  <div><div style="font-family:var(--f-display);font-weight:800;color:var(--brown);line-height:1.2">منصة مستهل</div><div class="sub">داخلية لأعضاء النادي: الأفكار، التصويت، التفعيلات، والنقاط</div></div>
+  <div class="me" id="meBox"><span class="pill">جارٍ التحميل…</span></div>
+</div></header>
+
+<div class="wrap">
+  <nav class="tabs" role="tablist" id="tabs">
+    <button role="tab" data-tab="ideas" aria-selected="true"><img src="../img/ic-talk-g.png" alt="">الأفكار والتصويت</button>
+    <button role="tab" data-tab="active" aria-selected="false"><img src="../img/ic-next-g.png" alt="">التفعيلات</button>
+    <button role="tab" data-tab="points" aria-selected="false"><img src="../img/ic-news-g.png" alt="">النقاط</button>
+    <button role="tab" data-tab="members" aria-selected="false"><img src="../img/ic-team-g.png" alt="">الأعضاء</button>
+    <button role="tab" data-tab="admin" aria-selected="false" data-exec hidden><img src="../img/ic-contact-g.png" alt="">الإدارة</button>
+  </nav>
+  <div id="status"></div>
+  <div id="alerts"></div>
+  <section role="tabpanel" id="panel-ideas"></section>
+  <section role="tabpanel" id="panel-active" hidden></section>
+  <section role="tabpanel" id="panel-points" hidden></section>
+  <section role="tabpanel" id="panel-members" hidden></section>
+  <section role="tabpanel" id="panel-admin" hidden></section>
+  
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="whoDlg" aria-label="اختيار العضو"><div class="in" id="whoBody"></div></dialog>
+
+<script>
+/* ---------- rules ---------- */
+const PTS={idea:1, closed:10, task:2};
+const EXEC=['m-anhar','m-mohammed'];
+const TSTATUS={pending:'بانتظار الاعتماد',assigned:'معيّنة',review:'بانتظار التحقق',done:'منجزة ومحتسبة'};
+const isExec=()=>!!me&&EXEC.includes(me.id)&&!!API.auth.admin;
+const STATUS={voting:'تصويت مفتوح',selected:'مختارة للتنفيذ',active:'تحت التنفيذ',closed:'مُغلقة ومكتملة',dropped:'مستبعدة'};
+const TEAMS=['اللجنة التنفيذية','فريق العمليات','فريق تطوير البرامج','استوديو مستهل الإبداعي'];
+const MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+/* ---------- state ---------- */
+let db=null,me=null,activeTab='ideas',monthSel=null;
+const S={members:[],ideas:[],votes:[],tasks:[],loaded:false};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const nowIso=()=>new Date().toISOString();
+const ym=iso=>(iso||'').slice(0,7);
+const monthLabel=k=>{ if(!k) return '—'; const [y,m]=k.split('-').map(Number); return `${MONTHS[m-1]||''} ${y}`; };
+const fmtDate=iso=>{ if(!iso) return '—'; const d=new Date(iso); return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`; };
+const mName=id=>S.members.find(m=>m.id===id)?.name||'—';
+const sortBy=(arr,f,desc)=>[...arr].sort((a,b)=>{const x=f(a),y=f(b);return (x>y?1:x<y?-1:0)*(desc?-1:1)});
+function toast(msg,kind){ const t=$('#toast'); t.textContent=msg; t.className='toast show'+(kind?' '+kind:''); clearTimeout(toast._t); toast._t=setTimeout(()=>t.className='toast',2600); }
+function setStatus(html,cls){ $('#status').innerHTML=html?`<div class="notice ${cls||''}" style="margin-bottom:16px">${html}</div>`:''; }
+
+/* ---------- points engine (pure) ---------- */
+function ledger(){
+  const rows=[];
+  for(const i of S.ideas){
+    if(i.status!=='dropped' || true) rows.push({memberId:i.byMember,pts:PTS.idea,kind:'فكرة',label:i.title,at:i.createdAt,ideaId:i.id});
+    if(i.status==='closed') rows.push({memberId:i.byMember,pts:PTS.closed,kind:'تفعيل مكتمل',label:i.title,at:i.closedAt||i.createdAt,ideaId:i.id});
+  }
+  for(const t of S.tasks){ if((t.status||'done')!=='done') continue; rows.push({memberId:t.memberId,pts:PTS.task,kind:'مهمة',label:t.title,at:t.doneAt||t.at,ideaId:t.ideaId}); }
+  return rows;
+}
+function totals(monthKey){
+  const by={}; for(const r of ledger()){ if(monthKey && ym(r.at)!==monthKey) continue; by[r.memberId]=(by[r.memberId]||0)+r.pts; }
+  return sortBy(S.members.filter(m=>m.active!==false).map(m=>({...m,pts:by[m.id]||0})),m=>m.pts,true);
+}
+function votesFor(ideaId){ return S.votes.filter(v=>v.ideaId===ideaId); }
+
+/* ---------- boot (GitHub Pages + Apps Script) ---------- */
+const API=window.MustahalAPI; let pollTimer=null, refreshing=false;
+async function boot(){
+  bindUI(); renderAll();
+  if(!API.configured()){ setStatus('<div class="setup"><b>الخادم غير مربوط بعد.</b> انشري Apps Script من <code>backend/Code.gs</code> كتطبيق ويب، ثم ضعي رابط <code>/exec</code> في <code>js/config.js</code>.</div>',''); renderMe(); return; }
+  db=API.db;
+  try{ me=S.members.find(m=>m.id===localStorage.getItem('mustahal.memberId'))||null; }catch{}
+  if(!API.auth.pin){ openLogin(); renderMe(); return; }
+  await refresh(true);
+  pollTimer=setInterval(()=>{ if(!document.hidden) refresh(); },20000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) refresh(); });
+}
+async function refresh(first){
+  if(refreshing||!API.auth.pin) return; refreshing=true;
+  try{ const d=await API.getAll(); S.members=d.members||[]; S.ideas=d.ideas||[]; S.votes=d.votes||[]; S.tasks=d.tasks||[]; S.loaded=true; setStatus('');
+    let mid=null; try{ mid=localStorage.getItem('mustahal.memberId'); }catch{}
+    me=S.members.find(m=>m.id===mid)||null; renderMe(); renderAll();
+    if(!me && S.members.length) openWho();
+  }catch(e){ console.error(e); if(String(e.message)==='pin'){ API.auth.pin=''; setStatus('رمز الأعضاء غير صحيح.','bad'); openLogin(); } else setStatus('تعذّر الوصول للخادم. تأكدي من الاتصال ومن رابط الخادم.','bad'); }
+  finally{ refreshing=false; }
+}
+/* every write refreshes the data */
+const _origDb=API.db; db={ doc(p){ const d=_origDb.doc(p); return { set:async x=>{await d.set(x); await refresh();}, update:async x=>{await d.update(x); await refresh();}, delete:async()=>{await d.delete(); await refresh();} }; } };
+function openLogin(){
+  let dlg=document.getElementById('loginDlg');
+  if(!dlg){ dlg=document.createElement('dialog'); dlg.id='loginDlg'; dlg.className='login'; dlg.setAttribute('aria-label','دخول الأعضاء'); document.body.appendChild(dlg); }
+  dlg.innerHTML=`<form class="in" id="loginForm"><h2>منصة مستهل</h2><p class="muted small" style="margin:0">المنصة داخلية لأعضاء النادي. أدخلي رمز الأعضاء الذي أرسله لكِ الفريق.</p><label class="f">رمز الأعضاء<input name="pin" type="password" required autocomplete="off"></label><button class="btn primary">دخول</button></form>`;
+  if(!dlg.open) dlg.showModal();
+}
+function renderMe(){
+  const b=$('#meBox'); if(!API.configured()){ b.innerHTML='<span class="pill">غير مربوط</span>'; return; }
+  b.innerHTML= me?`<span>أنتِ: <b>${esc(me.name)}</b> · <span class="muted">${esc(me.role||'')}</span></span>${isExec()?'<button class="btn sm ghost" data-act="who">تغيير</button>':''}<button class="btn sm ghost" data-act="logout" title="خروج">خروج</button>`:(API.auth.pin?`<button class="btn sm primary" data-act="who">من أنت؟</button>`:`<button class="btn sm primary" data-act="login">دخول الأعضاء</button>`);
+}
+function openWho(){
+  const body=$('#whoBody'); const teams={}; S.members.filter(m=>m.active!==false).forEach(m=>{(teams[m.team]=teams[m.team]||[]).push(m);});
+  body.innerHTML=`<h2>من أنت؟</h2><p class="muted small" style="margin:4px 0 12px">اختر اسمك مرة واحدة على هذا الجهاز، وبعدها يظهر تلقائيًا وتُنسب لك أفكارك وأصواتك ومهامك.</p>`+TEAMS.filter(t=>teams[t]).map(t=>`<div class="team-h">${esc(t)}</div><div class="who-grid">${teams[t].map(m=>`<button data-pick="${esc(m.id)}"><b>${esc(m.name)}</b><span>${esc(m.role||'')}</span></button>`).join('')}</div>`).join('');
+  const d=$('#whoDlg'); if(!d.open) d.showModal();
+}
+function askAdmin(memberId){
+  const body=$('#whoBody');
+  body.innerHTML=`<form id="adminForm" class="stack"><h2>رمز الإدارة</h2><p class="muted small" style="margin:0">${esc(mName(memberId))} من اللجنة التنفيذية. أدخل رمز الإدارة لتفعيل الاعتماد والتحقق والإغلاق.</p><label class="f">رمز الإدارة<input name="admin" type="password" required autocomplete="off"></label><input type="hidden" name="memberId" value="${esc(memberId)}"><div class="row"><button class="btn primary">تأكيد</button><button type="button" class="btn ghost" data-act="skip-admin" data-id="${esc(memberId)}">الدخول كعضو عادي</button></div></form>`;
+}
+/* ---------- tabs ---------- */
+function bindUI(){
+  $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]'); if(b) showTab(b.dataset.tab);});
+  document.body.addEventListener('click',onClick);
+  document.body.addEventListener('submit',onSubmit);
+  document.body.addEventListener('change',onChange);
+  try{const t=localStorage.getItem('mustahal.tab'); if(t) activeTab=t;}catch{}
+  const h=(location.hash||'').replace('#',''); if(h==='admin') activeTab='admin'; else if(h==='members') activeTab='ideas';
+  showTab(activeTab,true);
+}
+function showTab(t,silent){ activeTab=t; try{localStorage.setItem('mustahal.tab',t);}catch{} document.querySelectorAll('#tabs [role=tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t))); document.querySelectorAll('[role=tabpanel]').forEach(p=>p.hidden=p.id!=='panel-'+t); if(!silent) renderAll(); }
+function renderAlerts(){
+  const pend=S.tasks.filter(t=>t.status==='pending'); const rev=S.tasks.filter(t=>t.status==='review');
+  const n=isExec()?pend.length+rev.length:0;
+  document.title=(n?`(${n}) `:'')+'منصة مستهل';
+  const tab=document.querySelector('#tabs [data-tab="active"]'); if(tab){ let b=tab.querySelector('.badge'); if(n){ if(!b){ b=document.createElement('span'); b.className='badge'; tab.appendChild(b);} b.textContent=n; } else if(b) b.remove(); }
+  const box=$('#alerts'); if(!box) return;
+  if(!isExec()||!n){ box.innerHTML=''; return; }
+  const items=[...pend.map(t=>`<li><b>${esc(mName(t.addedBy))}</b> أضاف مهمة «${esc(t.title)}» في «${esc(S.ideas.find(i=>i.id===t.ideaId)?.title||'')}» · <span class="small muted">${fmtDate(t.at)}</span> <button class="btn sm gold" data-act="approve-task" data-id="${esc(t.id)}">اعتماد</button> <button class="btn sm ghost" data-act="del-task" data-id="${esc(t.id)}">رفض</button></li>`),
+    ...rev.map(t=>`<li><b>${esc(mName(t.memberId))}</b> أنهى مهمة «${esc(t.title)}» وينتظر التحقق <button class="btn sm primary" data-act="done-task" data-id="${esc(t.id)}">تأكيد الإنجاز (+${PTS.task})</button></li>`)];
+  box.innerHTML=`<div class="alert"><div class="eyebrow" style="margin:0 0 6px"><img src="../img/ic-news-g.png" alt="">تنبيهات تحتاج قرارك (${n})</div><ul>${items.join('')}</ul></div>`;
+}
+function renderAdmin(){
+  const p=$('#panel-admin'); if(!p) return;
+  if(!isExec()){ p.innerHTML='<div class="empty">هذه الصفحة لرئيس النادي ونائبه. اختر اسمك من الأعلى.</div>'; return; }
+  const pend=S.tasks.filter(t=>t.status==='pending'), rev=S.tasks.filter(t=>t.status==='review'), act=S.ideas.filter(i=>i.status==='active'), sel=S.ideas.filter(i=>i.status==='selected');
+  const ideaT=id=>S.ideas.find(i=>i.id===id)?.title||'';
+  const taskLine=t=>`<div class="task"><span>${esc(t.title)}<div class="by">${esc(ideaT(t.ideaId))} · ${t.status==='pending'?`أضافها ${esc(mName(t.addedBy))} لـ<b>${esc(mName(t.memberId))}</b>`:`أنهاها <b>${esc(mName(t.memberId))}</b>`} · ${fmtDate(t.at)}</div></span><span class="row" style="gap:6px">${t.status==='pending'?`<button class="btn sm gold" data-act="approve-task" data-id="${esc(t.id)}">اعتماد</button><button class="btn sm ghost" data-act="del-task" data-id="${esc(t.id)}">رفض</button>`:`<button class="btn sm primary" data-act="done-task" data-id="${esc(t.id)}">تأكيد الإنجاز (+${PTS.task})</button>`}</span><span></span></div>`;
+  p.innerHTML=`<div class="card"><div class="eyebrow"><img src="../img/ic-news-g.png" alt="">مهام بانتظار الاعتماد (${pend.length})</div><div class="tasks">${pend.map(taskLine).join('')||'<div class="empty">لا شيء.</div>'}</div></div>
+  <div class="card"><div class="eyebrow"><img src="../img/ic-news-g.png" alt="">مهام بانتظار التحقق من الإنجاز (${rev.length})</div><div class="tasks">${rev.map(taskLine).join('')||'<div class="empty">لا شيء.</div>'}</div></div>
+  <div class="grid"><div class="card"><div class="eyebrow"><img src="../img/ic-next-g.png" alt="">تفعيلات مختارة تنتظر البدء (${sel.length})</div>${sel.map(i=>`<div class="row spread" style="padding:6px 0;border-bottom:1px solid var(--line)"><span>${esc(i.title)} <span class="small muted">· ${esc(mName(i.byMember))}</span></span><button class="btn sm gold" data-act="activate" data-id="${esc(i.id)}">بدء التنفيذ</button></div>`).join('')||'<div class="empty">لا شيء.</div>'}</div>
+  <div class="card"><div class="eyebrow"><img src="../img/ic-next-g.png" alt="">تفعيلات تحت التنفيذ (${act.length})</div>${act.map(i=>`<div class="row spread" style="padding:6px 0;border-bottom:1px solid var(--line)"><span>${esc(i.title)} <span class="small muted">· ${S.tasks.filter(t=>t.ideaId===i.id&&(t.status||'done')==='done').length} منجزة</span></span><button class="btn sm" data-act="close" data-id="${esc(i.id)}">إغلاق (+${PTS.closed})</button></div>`).join('')||'<div class="empty">لا شيء.</div>'}</div></div>`;
+}
+function renderAll(){ document.querySelectorAll('[data-exec]').forEach(b=>b.hidden=!isExec()); renderAlerts(); renderIdeas(); renderActive(); renderPoints(); renderMembers(); renderAdmin(); }
+
+/* ---------- IDEAS & VOTING ---------- */
+function ideaCard(i,full){
+  const vs=votesFor(i.id); const mine=me&&vs.some(v=>v.memberId===me.id); const n=S.members.filter(m=>m.active!==false).length||1; const pct=Math.round(vs.length/n*100);
+  const canAct=!!me;
+  const actions=i.status==='voting'?`<button class="btn sm ${mine?'voted':''}" data-act="vote" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>${mine?'صوّتِ ✓ (سحب الصوت)':'صوّت لهذه الفكرة'}</button><button class="btn sm gold" data-act="select" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>اختيارها للتنفيذ</button><button class="btn sm ghost" data-act="drop" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>استبعاد</button>`
+    : i.status==='selected'?`<button class="btn sm gold" data-act="activate" data-id="${esc(i.id)}" ${canAct?'':'disabled'}>بدء التنفيذ</button><button class="btn sm ghost" data-act="revote" data-id="${esc(i.id)}">إرجاعها للتصويت</button>`
+    : i.status==='active'?(isExec()?`<button class="btn sm primary" data-act="close" data-id="${esc(i.id)}">إغلاق التفعيل (+${PTS.closed} لصاحب الفكرة)</button>`:`<span class="small muted">المهام في تبويب التفعيلات</span>`)
+    : i.status==='dropped'?`<button class="btn sm ghost" data-act="revote" data-id="${esc(i.id)}">إرجاعها للتصويت</button>`:'';
+  return `<article class="card idea"><div class="row spread"><h3>${esc(i.title)}</h3><span class="chip ${esc(i.status)}">${STATUS[i.status]||i.status}</span></div>
+    ${i.desc?`<p style="margin:0;color:var(--ink-2)">${esc(i.desc)}</p>`:''}
+    <div class="who">اقترحها <b>${esc(mName(i.byMember))}</b> · ${fmtDate(i.createdAt)}${i.when?` · موعد مقترح: ${esc(i.when)}`:''}</div>
+    <div class="votes"><span class="pts" style="font-size:1rem">${vs.length}</span><span class="small muted">من ${n} صوت</span><div class="bar"><i style="width:${pct}%"></i></div></div>
+    ${vs.length?`<div class="small muted">صوّت: ${vs.map(v=>esc(mName(v.memberId))).join('، ')}</div>`:''}
+    <div class="row">${actions}</div></article>`;
+}
+function renderIdeas(){
+  const p=$('#panel-ideas');
+  const open=sortBy(S.ideas.filter(i=>i.status==='voting'),i=>votesFor(i.id).length,true);
+  const other=sortBy(S.ideas.filter(i=>['selected','dropped'].includes(i.status)),i=>i.createdAt||'',true);
+  const form=`<details class="card" ${S.ideas.length?'':'open'}><summary style="cursor:pointer;font-weight:700;font-family:var(--f-display);color:var(--brown)">أضيفي فكرة تفعيل جديدة <span class="small muted" style="font-weight:400">· تُفتح للتصويت فورًا وتُحسب لكِ نقطة</span></summary>
+    <form id="ideaForm" class="form" style="margin-top:12px">
+      <label class="f full">الفكرة<input id="iTitle" name="title" required placeholder="مثال: زيارة استوديو فنان، لقاء مع قيّم، ورشة تصوير بالجوال"></label>
+      <label class="f full">وصف قصير: لمن، وماذا يخرج به الطالب<textarea id="iDesc" name="desc"></textarea></label>
+      <label class="f">موعد مقترح<input id="iWhen" name="when" placeholder="مثال: يناير 2027"></label>
+      <div class="full"><button class="btn primary" ${me?'':'disabled'}>إضافة وفتح التصويت</button>${me?'':'<span class="small muted" style="margin-inline-start:8px">اختاري اسمك أولًا من الأعلى.</span>'}</div>
+    </form></details>`;
+  p.innerHTML=`${form}
+    <div><div class="eyebrow"><img src="../img/ic-talk-g.png" alt="">تصويت مفتوح (${open.length})</div>${open.length?`<div class="grid">${open.map(i=>ideaCard(i)).join('')}</div>`:'<div class="empty">لا أفكار مفتوحة للتصويت الآن. أضيفي فكرة.</div>'}</div>
+    ${other.length?`<div><div class="eyebrow"><img src="../img/ic-next-g.png" alt="">مختارة أو مستبعدة</div><div class="grid">${other.map(i=>ideaCard(i)).join('')}</div></div>`:''}`;
+}
+
+/* ---------- ACTIVE (tasks) ---------- */
+function renderActive(){
+  const p=$('#panel-active');
+  const act=sortBy(S.ideas.filter(i=>i.status==='active'),i=>i.activatedAt||'',true);
+  const done=sortBy(S.ideas.filter(i=>i.status==='closed'),i=>i.closedAt||'',true);
+  const memberOpts=sortBy(S.members.filter(m=>m.active!==false),m=>m.name).map(m=>`<option value="${esc(m.id)}" ${me&&m.id===me.id?'selected':''}>${esc(m.name)}</option>`).join('');
+  const taskRow=(t,i)=>{ const st=t.status||'done'; const ex=isExec(); const mineTask=me&&t.memberId===me.id;
+    let act='';
+    if(i.status==='active'){
+      if(st==='pending'&&ex) act=`<button class="btn sm gold" data-act="approve-task" data-id="${esc(t.id)}">اعتماد</button><button class="btn sm ghost" data-act="del-task" data-id="${esc(t.id)}">رفض</button>`;
+      else if(st==='assigned'&&mineTask) act=`<button class="btn sm" data-act="finish-task" data-id="${esc(t.id)}">أنهيت المهمة</button>`;
+      else if((st==='assigned'||st==='review')&&ex) act=`<button class="btn sm primary" data-act="done-task" data-id="${esc(t.id)}">تأكيد الإنجاز (+${PTS.task})</button>`;
+      if(ex&&st!=='pending') act+=`<button class="btn sm ghost" data-act="del-task" data-id="${esc(t.id)}" aria-label="حذف">×</button>`;
+    }
+    const who= st==='pending'?`أضافها ${esc(mName(t.addedBy))} لـ<b>${esc(mName(t.memberId))}</b>`: st==='done'?`<b>${esc(mName(t.memberId))}</b> · +${PTS.task}`:`معيّنة إلى <b>${esc(mName(t.memberId))}</b>`;
+    return `<div class="task"><span>${esc(t.title)}<div class="by">${who} · <span class="chip t-${st}">${TSTATUS[st]}</span></div></span><span class="row" style="gap:6px">${act||''}</span><span></span></div>`; };
+  const block=i=>{ const ts=sortBy(S.tasks.filter(t=>t.ideaId===i.id),t=>t.at||''); const done=ts.filter(t=>(t.status||'done')==='done').length; const pend=ts.filter(t=>t.status==='pending').length;
+    return `<article class="card"><div class="row spread"><h3>${esc(i.title)}</h3><span class="chip ${esc(i.status)}">${STATUS[i.status]}</span></div>
+      <div class="small muted">صاحب الفكرة: <b>${esc(mName(i.byMember))}</b>${i.when?` · ${esc(i.when)}`:''} · ${ts.length} مهمة · ${done} منجزة · ${done*PTS.task} نقطة احتُسبت${pend?` · ${pend} بانتظار الاعتماد`:''}</div>
+      <div class="tasks">${ts.map(t=>taskRow(t,i)).join('')||'<div class="empty">لا مهام بعد.</div>'}</div>
+      ${i.status==='active'?`<form class="form" data-task="${esc(i.id)}" style="margin-top:12px"><label class="f">المهمة<input name="title" required placeholder="مثال: تصميم الإعلان، التنسيق مع الضيف، تسجيل الحضور"></label>${isExec()?`<label class="f">من ينفّذها<select name="memberId" required>${memberOpts}</select></label>`:`<label class="f">تُنسب إلى<input value="${esc(me?me.name:'')}" disabled><input type="hidden" name="memberId" value="${esc(me?me.id:'')}"></label>`}<div style="align-self:end"><button class="btn primary" ${me?'':'disabled'}>${isExec()?'إضافة واعتماد':'إرسال للاعتماد'}</button></div></form>
+      <p class="small muted" style="margin:6px 0 0">المهمة تُعتمد من أنهار أو محمد، ثم تظهر معيّنة لصاحبها، وتُحسب نقاطها (+${PTS.task}) بعد التحقق من إنجازها.</p>
+      <div class="row" style="margin-top:10px">${isExec()?`<button class="btn sm" data-act="close" data-id="${esc(i.id)}">إغلاق التفعيل (+${PTS.closed} لصاحب الفكرة)</button>`:''}</div>`:''}
+    </article>`; };
+  const pendAll=S.tasks.filter(t=>t.status==='pending').length;
+  p.innerHTML=`${isExec()&&pendAll?`<div class="notice">${pendAll} ${pendAll===1?'مهمة بانتظار اعتمادك':'مهام بانتظار اعتمادك'}.</div>`:''}<div><div class="eyebrow"><img src="../img/ic-next-g.png" alt="">تحت التنفيذ (${act.length})</div>${act.length?`<div class="stack">${act.map(block).join('')}</div>`:'<div class="empty">لا تفعيلات تحت التنفيذ. اختاري فكرة من التصويت ثم «بدء التنفيذ».</div>'}</div>
+    ${done.length?`<div><div class="eyebrow"><img src="../img/ic-news-g.png" alt="">مكتملة (${done.length})</div><div class="stack">${done.map(block).join('')}</div></div>`:''}`;
+}
+
+/* ---------- POINTS ---------- */
+function renderPoints(){
+  const p=$('#panel-points');
+  const months=[...new Set(ledger().map(r=>ym(r.at)).filter(Boolean))].sort().reverse();
+  const cur=ym(nowIso()); if(!months.includes(cur)) months.unshift(cur);
+  if(!monthSel) monthSel=cur;
+  const rows=totals(monthSel); const all=totals(null); const top=rows[0]&&rows[0].pts>0?rows[0]:null;
+  const mine=me?ledger().filter(r=>r.memberId===me.id&&ym(r.at)===monthSel):[];
+  p.innerHTML=`
+  <div class="card soft"><div class="row spread"><div><div class="eyebrow"><img src="../img/ic-news-g.png" alt="">كيف تُحسب النقاط</div></div></div>
+    <div class="rules"><div class="rule"><b>+${PTS.idea}</b>لكل فكرة تفعيل يضيفها العضو، تلقائيًا عند الإضافة</div><div class="rule"><b>+${PTS.task}</b>لكل مهمة ينفّذها العضو في تفعيل تحت التنفيذ</div><div class="rule"><b>+${PTS.closed}</b>لصاحب الفكرة عند اختيارها وتفعيلها حتى الإغلاق</div></div></div>
+  <div class="grid">
+    <div class="card"><div class="row spread"><div class="eyebrow"><img src="../img/ic-team-g.png" alt="">ترتيب الشهر</div><select id="monthSel" style="padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card)">${months.map(m=>`<option value="${m}" ${m===monthSel?'selected':''}>${monthLabel(m)}</option>`).join('')}</select></div>
+      ${top?`<div class="notice ok" style="margin-bottom:10px">الأعلى نقاطًا في ${monthLabel(monthSel)}: <b>${esc(top.name)}</b> بـ ${top.pts} نقطة</div>`:''}
+      <div class="lb">${rows.map((m,i)=>`<div class="r ${i===0&&m.pts>0?'top':''}"><span class="n">${i+1}</span><span>${esc(m.name)}<div class="d">${esc(m.role||'')}</div></span><span class="pts">${m.pts}</span></div>`).join('')}</div></div>
+    <div class="card"><div class="eyebrow"><img src="../img/ic-team-g.png" alt="">الإجمالي منذ البداية</div><div class="lb">${all.map((m,i)=>`<div class="r"><span class="n">${i+1}</span><span>${esc(m.name)}</span><span class="pts">${m.pts}</span></div>`).join('')}</div></div>
+  </div>
+  ${me?`<div class="card"><div class="eyebrow"><img src="../img/ic-news-g.png" alt="">نقاطي في ${monthLabel(monthSel)}: ${mine.reduce((a,b)=>a+b.pts,0)}</div><div class="tbl"><table><thead><tr><th>التاريخ</th><th>النوع</th><th>البند</th><th class="num">النقاط</th></tr></thead><tbody>${sortBy(mine,r=>r.at,true).map(r=>`<tr><td>${fmtDate(r.at)}</td><td>${esc(r.kind)}</td><td>${esc(r.label)}</td><td class="num">+${r.pts}</td></tr>`).join('')||'<tr><td colspan="4"><div class="empty">لا نقاط هذا الشهر بعد.</div></td></tr>'}</tbody></table></div></div>`:''}
+  <div class="card soft"><div class="eyebrow"><img src="../img/ic-contact-g.png" alt="">المزايا</div>
+    <ul style="margin:0;padding-inline-start:18px;color:var(--ink-2)"><li>ترشيح للدورات والبرامج من شؤون الطلاب بحسب النقاط.</li><li>شهادة شكر بعد كل تفعيل لمن نفّذ مهامه.</li><li>ساعات تطوعية، أو أولوية في المشاركة في البرامج المدفوعة بأجر.</li></ul>
+    <p class="small muted" style="margin:8px 0 0">النقاط تُراجع نهاية كل شهر من رئيس النادي وعضو آخر، ويُعلن اسم الأعلى نقاطًا.</p></div>`;
+}
+
+
+/* ---------- MEMBERS ---------- */
+function renderMembers(){
+  const p=$('#panel-members'); const teams={}; S.members.forEach(m=>{(teams[m.team||'أعضاء']=teams[m.team||'أعضاء']||[]).push(m);});
+  const all=totals(null);
+  p.innerHTML=`${TEAMS.filter(t=>teams[t]).map(t=>`<div><div class="team-h">${esc(t)}</div><div class="grid">${sortBy(teams[t],m=>m.order||0).map(m=>`<div class="card"><div class="row spread"><b>${esc(m.name)}</b>${m.active===false?'<span class="chip dropped">غادر</span>':`<span class="pts">${all.find(x=>x.id===m.id)?.pts||0}</span>`}</div><div class="small muted">${esc(m.role||'')}</div></div>`).join('')}</div></div>`).join('')}
+  <details class="card"><summary style="cursor:pointer;font-weight:700;font-family:var(--f-display);color:var(--brown)">إضافة عضو</summary>
+    <form id="memberForm" class="form" style="margin-top:12px"><label class="f">الاسم<input id="mName" name="name" required></label><label class="f">الدور<input id="mRole" name="role" placeholder="أخصائي عمليات"></label><label class="f">الفريق<select id="mTeam" name="team">${TEAMS.map(t=>`<option>${t}</option>`).join('')}</select></label><div style="align-self:end"><button class="btn primary" ${me?'':'disabled'}>إضافة</button></div></form></details>`;
+}
+
+/* ---------- actions ---------- */
+async function onChange(e){
+  const t=e.target;
+  if(t.id==='monthSel'){ monthSel=t.value; renderPoints(); return; }
+}
+function confirmStep(b,label){ if(b.dataset.armed==='1') return true; b.dataset.armed='1'; const old=b.textContent; b.textContent=label; setTimeout(()=>{b.dataset.armed='';b.textContent=old;},3000); return false; }
+async function onClick(e){
+  const pick=e.target.closest('[data-pick]'); if(pick){ const id=pick.dataset.pick; try{localStorage.setItem('mustahal.memberId',id);}catch{} me=S.members.find(m=>m.id===id)||null; if(EXEC.includes(id)&&!API.auth.admin){ askAdmin(id); return; } $('#whoDlg').close(); toast('أهلًا '+mName(id),'ok'); renderMe(); renderAll(); return; }
+  const skip=e.target.closest('[data-act="skip-admin"]'); if(skip){ $('#whoDlg').close(); renderMe(); renderAll(); return; }
+  const b=e.target.closest('[data-act]'); if(!b) return; const act=b.dataset.act, id=b.dataset.id;
+  if(act==='who'){ openWho(); return; }
+  if(act==='login'){ openLogin(); return; }
+  if(act==='logout'){ API.auth.pin=''; API.auth.admin=''; try{localStorage.removeItem('mustahal.memberId');}catch{} location.reload(); return; }
+  if(!me){ toast('اختاري اسمك أولًا'); return; }
+  try{
+    const idea=S.ideas.find(i=>i.id===id);
+    if(act==='vote'){ const vid=`${id}_${me.id}`; const ex=S.votes.find(v=>v.id===vid); if(ex) await db.doc('votes/'+vid).delete(); else await db.doc('votes/'+vid).set({ideaId:id,memberId:me.id,at:nowIso()}); }
+    else if(act==='select'){ await db.doc('ideas/'+id).update({status:'selected',selectedAt:nowIso(),selectedBy:me.id}); toast('اختيرت للتنفيذ','ok'); }
+    else if(act==='activate'){ await db.doc('ideas/'+id).update({status:'active',activatedAt:nowIso()}); toast('صارت تحت التنفيذ، أضيفوا المهام','ok'); showTab('active'); }
+    else if(act==='close'){ if(!isExec()) return toast('الإغلاق لأنهار ومحمد فقط'); if(!confirmStep(b,'تأكيد الإغلاق')) return; await db.doc('ideas/'+id).update({status:'closed',closedAt:nowIso(),closedBy:me.id}); toast(`أُغلق التفعيل، +${PTS.closed} لـ${mName(idea.byMember)}`,'ok'); }
+    else if(act==='drop'){ if(!confirmStep(b,'تأكيد الاستبعاد')) return; await db.doc('ideas/'+id).update({status:'dropped',droppedAt:nowIso()}); }
+    else if(act==='revote'){ await db.doc('ideas/'+id).update({status:'voting'}); }
+    else if(act==='del-task'){ if(!isExec()) return toast('الحذف لأنهار ومحمد فقط'); if(!confirmStep(b,'تأكيد')) return; await db.doc('tasks/'+id).delete(); }
+    else if(act==='approve-task'){ if(!isExec()) return toast('الاعتماد لأنهار ومحمد فقط'); await db.doc('tasks/'+id).update({status:'assigned',approvedBy:me.id,approvedAt:nowIso()}); toast('اعتُمدت وعُيّنت','ok'); }
+    else if(act==='finish-task'){ await db.doc('tasks/'+id).update({status:'review',finishedAt:nowIso()}); toast('أُرسلت للتحقق','ok'); }
+    else if(act==='done-task'){ if(!isExec()) return toast('التحقق لأنهار ومحمد فقط'); const t=S.tasks.find(x=>x.id===id); await db.doc('tasks/'+id).update({status:'done',doneAt:nowIso(),verifiedBy:me.id}); toast(`احتُسبت +${PTS.task} لـ${mName(t.memberId)}`,'ok'); }
+  }catch(err){ console.error(err); toast('ما انحفظ: '+(err.code||err.message||'خطأ'),'bad'); }
+}
+async function onSubmit(e){
+  const f=e.target; if(!(f instanceof HTMLFormElement)) return; e.preventDefault(); const d=Object.fromEntries(new FormData(f).entries());
+  if(f.id==='loginForm'){ API.auth.pin=(d.pin||'').trim(); document.getElementById('loginDlg').close(); await refresh(true); if(API.auth.pin&&!pollTimer){ pollTimer=setInterval(()=>{ if(!document.hidden) refresh(); },20000); } return; }
+  if(f.id==='adminForm'){ API.auth.admin=(d.admin||'').trim(); try{ await _origDb.doc('members/'+d.memberId).update({lastAdminLogin:nowIso()}); }catch(err){ API.auth.admin=''; toast('رمز الإدارة غير صحيح','bad'); return; } $('#whoDlg').close(); toast('تم تفعيل صلاحيات الإدارة','ok'); await refresh(); return; }
+  if(!me){ toast('اختاري اسمك أولًا'); return; }
+  try{
+    if(f.id==='ideaForm'){ const id=newId(); await db.doc('ideas/'+id).set({title:d.title.trim(),desc:(d.desc||'').trim(),when:(d.when||'').trim(),byMember:me.id,status:'voting',createdAt:nowIso()}); f.reset(); toast(`أُضيفت الفكرة وفُتح التصويت، +${PTS.idea} لكِ`,'ok'); f.closest('details')?.removeAttribute('open'); }
+    else if(f.dataset.task){ const id=newId(); const ex=isExec(); await db.doc('tasks/'+id).set({ideaId:f.dataset.task,title:d.title.trim(),memberId:d.memberId,addedBy:me.id,at:nowIso(),status:ex?'assigned':'pending',...(ex?{approvedBy:me.id,approvedAt:nowIso()}:{})}); f.reset(); toast(ex?`عُيّنت المهمة لـ${mName(d.memberId)}`:'أُرسلت المهمة لاعتماد أنهار أو محمد','ok'); }
+    else if(f.id==='memberForm'){ await db.doc('members/'+newId()).set({name:d.name.trim(),role:(d.role||'').trim(),team:d.team,active:true,order:99,createdAt:nowIso()}); f.reset(); toast('أُضيف العضو','ok'); }
+  }catch(err){ console.error(err); toast('ما انحفظ: '+(err.code||err.message||'خطأ'),'bad'); }
+}
+boot();
+</script>
+
+</body>
+</html>
