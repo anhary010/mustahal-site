@@ -112,6 +112,21 @@ footer{border-top:1px solid var(--line);padding-block:30px 50px;color:var(--mute
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
 footer img{height:30px;width:auto}
 
+/* Wrth identity: approved Culture & Heritage icons, Central (Riyadh) pattern, sadu motifs */
+.hero{position:relative}
+.hero .pat{position:absolute;inset:0;background:url(img/pattern-central.png) no-repeat;background-position:left -6% center;background-size:min(46%,620px) auto;opacity:.22;pointer-events:none}
+.hero .wrap{position:relative}
+.sec-head h2 .ico{width:38px;height:38px;vertical-align:-9px;margin-inline-end:10px;display:inline-block}
+.tag img{width:15px;height:15px;vertical-align:-3px;margin-inline-end:5px;display:inline-block}
+.slider .arr svg{width:16px;height:16px;fill:var(--brown)}
+.vg b{display:flex;align-items:center;gap:8px}
+.vg b::before{content:"";width:11px;height:14px;background:url(img/motif-star.png) no-repeat center/contain;display:inline-block}
+section.alt{background-image:url(img/motif-flower.png);background-repeat:no-repeat;background-position:left 24px top 24px;background-size:72px auto}
+footer{position:relative;text-align:center}
+footer .chain{display:block;width:150px;height:auto;margin:0 auto 18px;opacity:.9}
+footer .wrap{justify-content:center}
+.ev .ph .mark{width:64px;opacity:.55}
+
 @media (max-width:860px){
   .hero .wrap{grid-template-columns:1fr}
   .hero-slider{order:-1}
@@ -129,7 +144,7 @@ footer img{height:30px;width:auto}
   </nav>
 </div></header>
 
-<section class="hero"><div class="wrap">
+<section class="hero"><div class="pat" aria-hidden="true"></div><div class="wrap">
   <div class="intro">
     <div class="kicker">نادي مستهل الطلابي · معهد ورث · منذ يناير 2026</div>
     <h1>تُروى الحكاية ويُصنع الأثر</h1>
@@ -139,41 +154,41 @@ footer img{height:30px;width:auto}
       <div><b>رسالتنا</b><p>تفعيل دور الطلبة في المشهد الثقافي من خلال لقاءات نوعية تُسهم في تبادل المعرفة، ودعم التوجّه المهني، وبناء شبكة علاقات مع الهيئات والمؤسسات الثقافية.</p></div>
     </div>
   </div>
-  <div class="slider hero-slider" data-g="hero" data-i="0"><img src="img/deans-2.jpg" alt="من تفعيلات نادي مستهل"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/4</span></div>
+  <div class="slider hero-slider" data-g="hero" data-i="0"><img src="img/deans-2.jpg" alt="من تفعيلات نادي مستهل"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/4</span></div>
 </div>
 </div></section>
 
 <section id="sessions"><div class="wrap">
-  <div class="sec-head"><h2>جلسات النادي</h2><p>ما نظّمه النادي بنفسه: جلسات حوارية، زيارات، ولقاءات مع خبراء.</p></div>
+  <div class="sec-head"><h2><img class="ico" src="img/ic-talk-g.png" alt="">جلسات النادي</h2><p>ما نظّمه النادي بنفسه: جلسات حوارية، زيارات، ولقاءات مع خبراء.</p></div>
   <div class="events">
 
     <article class="ev" data-key="dream">
-      <div class="slider" data-g="dream" data-i="0"><img src="img/dream-1.jpg" alt="جلسة من الحلم إلى الحرفة" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/5</span></div>
-      <div class="body"><div class="tags"><span class="tag gold">جلسة حوارية</span><span class="tag">مع نادي الخريجين</span></div>
+      <div class="slider" data-g="dream" data-i="0"><img src="img/dream-1.jpg" alt="جلسة من الحلم إلى الحرفة" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/5</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-talk.png" alt="">جلسة حوارية</span><span class="tag">مع نادي الخريجين</span></div>
         <h3>من الحلم إلى الحرفة</h3><div class="when">19 يناير 2026 · مقر ورث · 40 دقيقة</div>
         <p>مع الخريج فيصل الجارالله والطالب حماد الشمري عن برنامج البناء بالطين. أدار الحوار محمد آل عطفة.</p>
         <button class="more" data-open="dream">عرض الصور (5)</button></div>
     </article>
 
     <article class="ev" data-key="deans">
-      <div class="slider" data-g="deans" data-i="0"><img src="img/deans-2.jpg" alt="جلسة التعلم بالتجربة" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/7</span></div>
-      <div class="body"><div class="tags"><span class="tag gold">جلسة حوارية</span><span class="tag">موسم الأندية</span></div>
+      <div class="slider" data-g="deans" data-i="0"><img src="img/deans-2.jpg" alt="جلسة التعلم بالتجربة" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/7</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-talk.png" alt="">جلسة حوارية</span><span class="tag">موسم الأندية</span></div>
         <h3>التعلّم بالتجربة: دور الأندية في بناء الطالب</h3><div class="when">16 فبراير 2026 · مقر ورث</div>
         <p>استضفنا عمداء كليات المعهد ضمن موسم الأندية الطلابية، مع نشاط تفاعلي وهدايا رمزية.</p>
         <button class="more" data-open="deans">عرض الصور (7)</button></div>
     </article>
 
     <article class="ev" data-key="apr">
-      <div class="slider" data-g="apr" data-i="0"><img src="img/apr-1.jpg" alt="جلسة حكاية أبريل" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/7</span></div>
-      <div class="body"><div class="tags"><span class="tag gold">جلسة حوارية</span><span class="tag">اليوم العالمي للتراث</span></div>
+      <div class="slider" data-g="apr" data-i="0"><img src="img/apr-1.jpg" alt="جلسة حكاية أبريل" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/7</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-talk.png" alt="">جلسة حوارية</span><span class="tag">اليوم العالمي للتراث</span></div>
         <h3>حكاية أبريل: من الماضي إلى العالم</h3><div class="when">21 أبريل 2026 · المعهد · ساعتان</div>
         <p>مع أ. ابتسام الوهيبي، مدير عام إدارة التراث الثقافي غير المادي في هيئة التراث، وأ. العنود البتال من قطاع الحرف اليدوية، عن دور الهيئة في حفظ التراث وتقديمه للعالم.</p>
         <button class="more" data-open="apr">عرض الصور (7)</button></div>
     </article>
 
     <article class="ev" data-key="bgm">
-      <div class="slider" data-g="bgm" data-i="0"><img src="img/bgm-1.jpg" alt="زيارة متحف الذهب الأسود" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/4</span></div>
-      <div class="body"><div class="tags"><span class="tag gold">زيارة</span><span class="tag">مع نادي رواق المتاحف</span></div>
+      <div class="slider" data-g="bgm" data-i="0"><img src="img/bgm-1.jpg" alt="زيارة متحف الذهب الأسود" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/4</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-visit.png" alt="">زيارة</span><span class="tag">مع نادي رواق المتاحف</span></div>
         <h3>زيارة متحف الذهب الأسود</h3><div class="when">مايو 2026 · اليوم العالمي للمتاحف</div>
         <p>جولة وحوار مع مدير المتحف جاك برسكيان عن المتحف كمكان حيّ للتبادل الثقافي.</p>
         <button class="more" data-open="bgm">عرض الصور (4)</button></div>
@@ -181,23 +196,23 @@ footer img{height:30px;width:auto}
 
     <article class="ev" data-key="pink">
       <div class="slider" data-g="pink" data-i="0"><img src="img/pink-poster.jpg" alt="إعلان جلسة أكتوبر الوردي" loading="lazy"></div>
-      <div class="body"><div class="tags"><span class="tag gold">أونلاين</span><span class="tag">أكتوبر الوردي</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-online.png" alt="">أونلاين</span><span class="tag">أكتوبر الوردي</span></div>
         <h3>وعيكِ أمانكِ… والكشف المبكر حياة</h3><div class="when">28 أكتوبر 2026 · عبر Teams · ساعة</div>
         <p>مع د. ملك علوي، استشارية طب الأشعة التشخيصية في مستشفى السعودي الألماني.</p>
         <button class="more" data-open="pink">عرض الإعلان</button></div>
     </article>
 
     <article class="ev" data-key="ghanem">
-      <div class="slider" data-g="ghanem" data-i="0"><img src="img/nov-x2.jpg" alt="الفنان غانم في استوديوه" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/2</span></div>
-      <div class="body"><div class="tags"><span class="tag gold">زيارة</span><span class="tag">استوديو</span></div>
+      <div class="slider" data-g="ghanem" data-i="0"><img src="img/nov-x2.jpg" alt="الفنان غانم في استوديوه" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/2</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-visit.png" alt="">زيارة</span><span class="tag">استوديو</span></div>
         <h3>زيارة استوديو غانم</h3><div class="when">نوفمبر 2026 · استوديو الفنان</div>
         <p>جلسة في مكتبة الاستوديو عن تجارب الفنان بين المعارض والورش، وحوار مفتوح مع الطلاب.</p>
         <button class="more" data-open="ghanem">عرض الصور (2)</button></div>
     </article>
 
     <article class="ev" data-key="noura">
-      <div class="slider" data-g="noura" data-i="0"><img src="img/noura-1.jpg" alt="نورة سليمان تتحدث أمام الطلاب" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/9</span></div>
-      <div class="body"><div class="tags"><span class="tag gold">لقاء مع خبير</span><span class="tag">حضوري</span></div>
+      <div class="slider" data-g="noura" data-i="0"><img src="img/noura-1.jpg" alt="نورة سليمان تتحدث أمام الطلاب" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/9</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-expert.png" alt="">لقاء مع خبير</span><span class="tag">حضوري</span></div>
         <h3>من الفكرة إلى قطعة الأثاث</h3><div class="when">11 نوفمبر 2026 · المعهد · ساعة</div>
         <p>مع المصممة نورة سليمان عن رحلة القطعة من الرسمة الأولى إلى التنفيذ والتسعير.</p>
         <button class="more" data-open="noura">عرض الصور (9)</button></div>
@@ -207,18 +222,18 @@ footer img{height:30px;width:auto}
 </div></section>
 
 <section id="community" class="alt"><div class="wrap">
-  <div class="sec-head"><h2>تعاونات مجتمع ورث</h2><p>فعاليات نظّمناها مع مجتمع ورث.</p></div>
+  <div class="sec-head"><h2><img class="ico" src="img/ic-community-g.png" alt="">تعاونات مجتمع ورث</h2><p>فعاليات نظّمناها مع مجتمع ورث.</p></div>
   <div class="events">
     <article class="ev" data-key="wrth1">
-      <div class="slider" data-g="wrth1" data-i="0"><img src="img/wrth-1.jpg" alt="محاضرة المحافظة على التراث العمراني" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/3</span></div>
-      <div class="body"><div class="tags"><span class="tag gold">مجتمع ورث</span><span class="tag">تنظيم وإشراف</span></div>
+      <div class="slider" data-g="wrth1" data-i="0"><img src="img/wrth-1.jpg" alt="محاضرة المحافظة على التراث العمراني" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/3</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-community.png" alt="">مجتمع ورث</span><span class="tag">تنظيم وإشراف</span></div>
         <h3>المحافظة على التراث العمراني بين الترميم والتطوير</h3><div class="when">فبراير 2026 · مقر ورث</div>
         <p>محاضرة ضمن فعاليات مجتمع ورث، تولى فيها النادي فريق التنظيم والإشراف على الحضور.</p>
         <button class="more" data-open="wrth1">عرض الصور (3)</button></div>
     </article>
     <article class="ev" data-key="wrth2">
-      <div class="slider" data-g="wrth2" data-i="0"><img src="img/wrth-2.jpg" alt="فعالية مجتمع ورث" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/2</span></div>
-      <div class="body"><div class="tags"><span class="tag gold">مجتمع ورث</span><span class="tag">تنظيم وإشراف</span></div>
+      <div class="slider" data-g="wrth2" data-i="0"><img src="img/wrth-2.jpg" alt="فعالية مجتمع ورث" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/2</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-community.png" alt="">مجتمع ورث</span><span class="tag">تنظيم وإشراف</span></div>
         <h3>مستهل × مجتمع ورث</h3><div class="when">14 و28 فبراير 2026 · مقر ورث</div>
         <p>تعاون لتنظيم فعاليات المجتمع في فبراير: تسجيل، استقبال، وإشراف على الورش والحضور.</p>
         <button class="more" data-open="wrth2">عرض الصور (2)</button></div>
@@ -227,18 +242,18 @@ footer img{height:30px;width:auto}
 </div></section>
 
 <section id="news"><div class="wrap">
-  <div class="sec-head"><h2>أخبار</h2><p>محطات النادي.</p></div>
+  <div class="sec-head"><h2><img class="ico" src="img/ic-news-g.png" alt="">أخبار</h2><p>محطات النادي.</p></div>
   <div class="events">
     <article class="ev" data-key="launch">
-      <div class="slider" data-g="launch" data-i="0"><img src="img/launch-1.jpg" alt="فريق مستهل في يوم إطلاق الأندية" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة">‹</button><button class="arr next" data-sl="next" aria-label="الصورة التالية">›</button><span class="n"><b>1</b>/7</span></div>
-      <div class="body"><div class="tags"><span class="tag gold">إطلاق</span></div>
+      <div class="slider" data-g="launch" data-i="0"><img src="img/launch-1.jpg" alt="فريق مستهل في يوم إطلاق الأندية" loading="lazy"><button class="arr prev" data-sl="prev" aria-label="الصورة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l8 9-8 9z"/></svg></button><button class="arr next" data-sl="next" aria-label="الصورة التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3L8 12l8 9z"/></svg></button><span class="n"><b>1</b>/7</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-news.png" alt="">إطلاق</span></div>
         <h3>إطلاق نادي مستهل</h3><div class="when">1 يناير 2026 · مقر ورث</div>
         <p>انطلق النادي في يوم إطلاق الأندية الطلابية بإشراف شؤون الطلاب وبحضور قيادات المعهد، واستقطب أعضاء من مختلف الكليات والبرامج.</p>
         <button class="more" data-open="launch">عرض الصور (7)</button></div>
     </article>
     <article class="ev" data-key="jun">
       <div class="slider" data-g="jun" data-i="0"><img src="img/jun-1.jpg" alt="فريق النادي في حفل آخر الموسم" loading="lazy"></div>
-      <div class="body"><div class="tags"><span class="tag gold">حفل</span></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-next.png" alt="">حفل</span></div>
         <h3>حفل آخر الموسم</h3><div class="when">17 يونيو 2026 · المعهد</div>
         <p>ختام أول موسم للنادي وتكريم الفريق.</p>
         <button class="more" data-open="jun">عرض الصور (1)</button></div>
@@ -248,23 +263,23 @@ footer img{height:30px;width:auto}
 
 
 <section id="next" class="alt"><div class="wrap">
-  <div class="sec-head"><h2>القادم</h2><p>ثلاثة تفعيلات قيد التنسيق.</p></div>
+  <div class="sec-head"><h2><img class="ico" src="img/ic-next-g.png" alt="">القادم</h2><p>ثلاثة تفعيلات قيد التنسيق.</p></div>
   <div class="events">
     <article class="ev">
-      <div class="ph soon"><img class="mark" src="img/mark.png" alt=""></div>
-      <div class="body"><div class="tags"><span class="tag gold">ضيف مستهل</span><span class="tag">أونلاين</span></div>
+      <div class="ph soon"><img class="mark" src="img/ic-next-g.png" alt=""></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-talk.png" alt="">ضيف مستهل</span><span class="tag">أونلاين</span></div>
         <h3>معرض «خط أحمر» مع معاذ العوفي</h3><div class="when">نوفمبر 2026 · تحت المناقشة</div>
         <p>حوار مع الفنان والمصور حول معرضه ودور الفنان في ظل الظروف الراهنة.</p></div>
     </article>
     <article class="ev">
-      <div class="ph soon"><img class="mark" src="img/mark.png" alt=""></div>
-      <div class="body"><div class="tags"><span class="tag gold">ضيف مستهل</span><span class="tag">سرد الثقافي</span></div>
+      <div class="ph soon"><img class="mark" src="img/ic-next-g.png" alt=""></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-talk.png" alt="">ضيف مستهل</span><span class="tag">سرد الثقافي</span></div>
         <h3>من الفكرة إلى العرض السينمائي</h3><div class="when">ديسمبر 2026 · يوم السينما العالمي</div>
         <p>جلسة مع نادي سينيراما: من الفكرة إلى الفيلم، وتطبيق على مشاريع طلابنا تمهيدًا لسدوس.</p></div>
     </article>
     <article class="ev">
-      <div class="ph soon"><img class="mark" src="img/mark.png" alt=""></div>
-      <div class="body"><div class="tags"><span class="tag gold">لقاء مع طالب</span><span class="tag">مقر المعرض</span></div>
+      <div class="ph soon"><img class="mark" src="img/ic-next-g.png" alt=""></div>
+      <div class="body"><div class="tags"><span class="tag gold"><img src="img/ic-team.png" alt="">لقاء مع طالب</span><span class="tag">مقر المعرض</span></div>
         <h3>معرض «التفاحة المنفردة» مع روان</h3><div class="when">خلال فترة المعرض · تحت التنسيق</div>
         <p>نعلن معرض عضوة النادي ونلتقيها في مقره لتنقل تجربتها من الفكرة إلى صالة العرض.</p></div>
     </article>
@@ -272,7 +287,7 @@ footer img{height:30px;width:auto}
 </div></section>
 
 <section id="team"><div class="wrap">
-  <div class="sec-head"><h2>الفريق</h2><p>الهيكل التنظيمي 2026–2027: اثنا عشر عضوًا في ثلاثة فرق.</p></div>
+  <div class="sec-head"><h2><img class="ico" src="img/ic-team-g.png" alt="">الفريق</h2><p>الهيكل التنظيمي 2026–2027: اثنا عشر عضوًا في ثلاثة فرق.</p></div>
   <div class="chart">
     <div class="person"><b>أنهار المالكي</b><span>شريك مؤسس ورئيس النادي</span></div>
     <div class="link"></div>
@@ -287,14 +302,14 @@ footer img{height:30px;width:auto}
 </div></section>
 
 <section id="contact" class="alt"><div class="wrap">
-  <div class="sec-head"><h2>تواصل</h2><p>للضيوف والشركاء ولمن يريد الانضمام.</p></div>
+  <div class="sec-head"><h2><img class="ico" src="img/ic-contact-g.png" alt="">تواصل</h2><p>للضيوف والشركاء ولمن يريد الانضمام.</p></div>
   <div class="contact">
     <a href="https://www.instagram.com/mustahel_club" target="_blank" rel="noopener"><small>انستقرام</small><b dir="ltr">@mustahel_club</b></a>
     <a href="https://wa.me/966534402993" target="_blank" rel="noopener"><small>جوال وواتساب · أنهار المالكي، رئيس النادي</small><b dir="ltr">+966 53 440 2993</b></a>
   </div>
 </div></section>
 
-<footer><div class="wrap"><img src="img/logo.png" alt="" class="logo-swap"><span>نادي مستهل الطلابي · معهد ورث · 2026</span></div></footer>
+<footer><img class="chain" src="img/motif-chain-g.png" alt=""><div class="wrap"><img src="img/logo.png" alt="" class="logo-swap"><span>نادي مستهل الطلابي · معهد ورث · 2026</span></div></footer>
 
 <dialog class="lb" id="lb" aria-label="عرض الصور">
   <div class="frame"><button class="x" data-lb="close" aria-label="إغلاق">×</button>
