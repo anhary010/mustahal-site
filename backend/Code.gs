@@ -3,7 +3,7 @@
  * تخزين البيانات في Google Sheet، وواجهة JSON بسيطة تستخدمها صفحتا المنصة وحضور الطلاب على GitHub Pages.
  *
  * التشغيل مرة واحدة:
- *  1) غيّري الرمزين أدناه.
+ *  1) غيّر الرمزين أدناه.
  *  2) شغّل الدالة setup() من المحرر (تنشئ جدول البيانات وتزرع الأعضاء والتفعيلات الحالية).
  *  3) Deploy → New deployment → Web app → Execute as: Me · Who has access: Anyone → انسخ رابط /exec وضعه في js/config.js
  */
@@ -13,7 +13,7 @@ const EXEC = ['m-anhar', 'm-mohammed'];
 const COLS = ['members','ideas','votes','tasks','students','events','attendance','boards'];
 const ADMIN_ONLY = { // عمليات تحتاج رمز الإدارة
   tasks:   d => d && ['assigned','done'].includes(d.status),
-  ideas:   d => d && ['selected','active','closed','dropped','voting'].includes(d.status) && d._statusChange,
+  ideas:   d => d && d.status === 'closed',
   members: () => true,
   boards:  () => true,
   events:  () => false,
