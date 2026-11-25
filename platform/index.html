@@ -202,11 +202,10 @@ function totals(monthKey){
 function votesFor(ideaId){ return S.votes.filter(v=>v.ideaId===ideaId); }
 
 /* ---------- boot (GitHub Pages + Apps Script) ---------- */
-const API=window.MustahalAPI; let pollTimer=null, refreshing=false;
+const API=window.MustahalAPI; let pollTimer=null, refreshing=false, refreshAgain=false;
 async function boot(){
   bindUI(); renderAll();
   if(!API.configured()){ setStatus('<div class="setup"><b>الخادم غير مربوط بعد.</b> انشر Apps Script من <code>backend/Code.gs</code> كتطبيق ويب، ثم ضع رابط <code>/exec</code> في <code>js/config.js</code>.</div>',''); renderMe(); return; }
-  db=API.db;
   try{ me=S.members.find(m=>m.id===localStorage.getItem('mustahal.memberId'))||null; }catch{}
   if(!API.auth.pin){ openLogin(); renderMe(); return; }
   await refresh(true);
@@ -214,13 +213,13 @@ async function boot(){
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) refresh(); });
 }
 async function refresh(first){
-  if(refreshing||!API.auth.pin) return; refreshing=true;
+  if(!API.auth.pin) return; if(refreshing){ refreshAgain=true; return; } refreshing=true;
   try{ const d=await API.getAll(); S.members=d.members||[]; S.ideas=d.ideas||[]; S.votes=d.votes||[]; S.tasks=d.tasks||[]; S.loaded=true; setStatus('');
     let mid=null; try{ mid=localStorage.getItem('mustahal.memberId'); }catch{}
     me=S.members.find(m=>m.id===mid)||null; renderMe(); renderAll();
     if(!me && S.members.length) openWho();
   }catch(e){ console.error(e); if(String(e.message)==='pin'){ API.auth.pin=''; setStatus('رمز الأعضاء غير صحيح.','bad'); openLogin(); } else setStatus('تعذّر الوصول للخادم. تأكد من الاتصال ومن رابط الخادم.','bad'); }
-  finally{ refreshing=false; }
+  finally{ refreshing=false; if(refreshAgain){ refreshAgain=false; await refresh(); } }
 }
 /* every write refreshes the data */
 const _origDb=API.db; db={ doc(p){ const d=_origDb.doc(p); return { set:async x=>{await d.set(x); await refresh();}, update:async x=>{await d.update(x); await refresh();}, delete:async()=>{await d.delete(); await refresh();} }; } };
