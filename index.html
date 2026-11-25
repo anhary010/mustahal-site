@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
 <meta name="description" content="نادي مستهل الطلابي في معهد ورث: أخبار النادي، تعاونات مجتمع ورث، جلسات النادي، والقادم.">
 <meta property="og:title" content="نادي مستهل"><meta property="og:description" content="تُروى الحكاية ويُصنع الأثر. أعمال نادي مستهل الطلابي في معهد ورث."><meta property="og:image" content="img/deans-2.jpg"><meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="img/mark.png">
@@ -10,19 +11,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
 <style>
 [hidden]{display:none!important}
-/* Layout: light wall. Photo prints pinned at a slight angle on a warm white ground; brown headings, one gold accent; Tajawal display over Plex Arabic body. Light by design, with a dark wall for viewers who choose it. */
+/* Layout: light wall, single light theme by choice. Photo prints pinned at a slight angle on a warm white ground; brown headings, one gold accent; Tajawal display over Plex Arabic body. Light by design, with a dark wall for viewers who choose it. */
 :root{
   --bg:#f6f4f0; --bg-2:#efebe4; --wall:#e9e3d9; --ink:#2b1a12; --ink-2:#55453b; --mute:#857568; --line:#e2dbd0;
   --gold:#a8822f; --gold-ink:#fff9ec; --brown:#4a1e10; --print:#ffffff; --print-ink:#2b1a12; --tag:#f1ebe1; --shadow:rgba(60,35,20,.18);
   --f-display:"Tajawal","IBM Plex Sans Arabic",system-ui,sans-serif; --f-body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#17120f; --bg-2:#1f1815; --wall:#272019; --ink:#f3ebe1; --ink-2:#cdbfb2; --mute:#8d7d70; --line:#352b25;
-  --gold:#d2ad5c; --gold-ink:#1a1308; --brown:#f0dfc4; --print:#f6f1e9; --print-ink:#2b1a12; --tag:#2a221d; --shadow:rgba(0,0,0,.45); color-scheme:dark }}
-:root[data-theme="dark"]{
-  --bg:#17120f; --bg-2:#1f1815; --wall:#272019; --ink:#f3ebe1; --ink-2:#cdbfb2; --mute:#8d7d70; --line:#352b25;
-  --gold:#d2ad5c; --gold-ink:#1a1308; --brown:#f0dfc4; --print:#f6f1e9; --print-ink:#2b1a12; --tag:#2a221d; --shadow:rgba(0,0,0,.45); color-scheme:dark }
-
+ 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.8;direction:rtl;letter-spacing:0;-webkit-font-smoothing:antialiased}
@@ -42,7 +37,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .top nav a:hover{color:var(--ink);background:var(--bg-2)}
 
 /* hero: vision + goal, few words */
-.hero{padding-block:56px 44px;border-bottom:1px solid var(--line)}
+.hero{padding-block:56px 44px;border-bottom:1px solid var(--line);overflow:hidden}
 .hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
 .hero .kicker{color:var(--gold);font-size:14px;font-weight:600;margin-bottom:10px}
 .hero h1{font-size:clamp(2.3rem,5vw,4rem);line-height:1.15}
@@ -344,9 +339,6 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{ if(!lb.open) return; if(e.key==='ArrowLeft') show(cur.g,cur.i+1); if(e.key==='ArrowRight') show(cur.g,cur.i-1); });
 document.querySelectorAll('.ev .ph').forEach(p=>{ if(p.closest('.ev').dataset.g) p.style.cursor='zoom-in'; });
-const mq=matchMedia('(prefers-color-scheme: dark)');
-function logos(){ const dark=document.documentElement.dataset.theme==='dark'||(mq.matches&&document.documentElement.dataset.theme!=='light'); document.querySelectorAll('.logo-swap').forEach(i=>i.src=dark?'img/logo-white.png':'img/logo.png'); }
-logos(); mq.addEventListener('change',logos); new MutationObserver(logos).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 </script>
 
 </body>
