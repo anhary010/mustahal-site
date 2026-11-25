@@ -354,7 +354,7 @@ function setSlide(el,i){ const g=el.dataset.g, imgs=G[g].imgs; i=(i+imgs.length)
   im.classList.add('fading'); setTimeout(()=>{ im.src='img/'+imgs[i]+'.jpg'; if(n) n.textContent=i+1; im.onload=()=>im.classList.remove('fading'); setTimeout(()=>im.classList.remove('fading'),600); },300); }
 /* hero autoplay: next photo every 4 seconds, paused on hover or while hidden */
 const hero=document.querySelector('.hero-slider'); let heroTimer=null;
-function heroPlay(){ heroStop(); if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; heroTimer=setInterval(()=>{ if(document.hidden) return; setSlide(hero, Number(hero.dataset.i)+1); },2000); }
+function heroPlay(){ heroStop(); if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; heroTimer=setInterval(()=>{ if(document.hidden) return; setSlide(hero, Number(hero.dataset.i)+1); },3000); }
 function heroStop(){ if(heroTimer){ clearInterval(heroTimer); heroTimer=null; } }
 if(hero){ hero.addEventListener('mouseenter',heroStop); hero.addEventListener('mouseleave',heroPlay); G.hero.imgs.forEach(n=>{ const i=new Image(); i.src='img/'+n+'.jpg'; }); heroPlay(); }
 document.addEventListener('click',e=>{
