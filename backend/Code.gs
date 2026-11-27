@@ -109,14 +109,6 @@ function register_(req) {
   return out_({ ok:true });
 }
 
-/** مؤقت: حذف ورقة «التسجيل» القديمة (كانت بعمود الجوال) وأي سطر اختبار */
-function cleanupRegistration() {
-  const ss = ss_(); const old = ss.getSheetByName('التسجيل'); if (old) ss.deleteSheet(old);
-  const sh = ss.getSheetByName(REG_SHEET); if (!sh) { Logger.log('ok, no sheet yet'); return; }
-  let n = 0; for (let r = sh.getLastRow(); r >= 2; r--) { if (String(sh.getRange(r,3).getValue()).indexOf('اختبار النظام') === 0) { sh.deleteRow(r); n++; } }
-  Logger.log('deleted ' + n);
-}
-
 /** تُشغَّل مرة واحدة من المحرر */
 function setup() {
   COLS.forEach(sheet_);
