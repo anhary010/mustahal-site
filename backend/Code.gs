@@ -60,6 +60,7 @@ function doGet(e) {
 function doPost(e) {
   let req = {};
   try { req = JSON.parse(e.postData.contents); } catch(err) { return out_({ ok:false, error:'bad_json' }); }
+  if (req.action === 'register') return register_(req); // تسجيل عام للطلاب بلا رمز
   const isAdmin = req.admin === ADMIN_PIN;
   if (req.pin !== TEAM_PIN && !isAdmin) return out_({ ok:false, error:'pin' });
   if (req.action === 'all') { const data = {}; COLS.forEach(c => data[c] = readCol_(c)); return out_({ ok:true, data, serverTime: new Date().toISOString() }); }
@@ -72,6 +73,39 @@ function doPost(e) {
     else if (req.action === 'update') write_(req.col, req.id, req.data, true);
     else if (req.action === 'delete') remove_(req.col, req.id);
     else return out_({ ok:false, error:'bad_action' });
+  } finally { lock.releaseLock(); }
+  return out_({ ok:true });
+}
+
+/** تسجيل حضور الطلاب في الفعاليات (صفحة rsvp على الموقع): الاسم، الجوال، تأكيد الحضور */
+const REG_SHEET = 'التسجيل';
+function register_(req) {
+  if (req.hp) return out_({ ok:true }); // فخ للروبوتات: حقل مخفي امتلأ
+  const ev = String(req.event || '').trim().slice(0, 60);
+  const name = String(req.name || '').replace(/\s+/g, ' ').trim();
+  const phoneRaw = String(req.phone || '').replace(/[\s\-()]/g, '');
+  const confirm = ['yes','maybe'].includes(req.confirm) ? req.confirm : '';
+  if (!/^[\w\-]{2,60}$/.test(ev)) return out_({ ok:false, error:'event' });
+  if (name.length < 3 || name.length > 60) return out_({ ok:false, error:'name' });
+  const phone = phoneRaw.replace(/^(\+?966|00966)/, '0');
+  if (!/^05\d{8}$/.test(phone)) return out_({ ok:false, error:'phone' });
+  if (!confirm) return out_({ ok:false, error:'confirm' });
+  const lock = LockService.getScriptLock(); lock.waitLock(10000);
+  try {
+    const ss = ss_(); let sh = ss.getSheetByName(REG_SHEET);
+    if (!sh) { sh = ss.insertSheet(REG_SHEET); sh.appendRow(['الوقت','الفعالية','الاسم','الجوال','تأكيد الحضور']); sh.setFrozenRows(1); }
+    const last = sh.getLastRow();
+    const rows = last > 1 ? sh.getRange(2,1,last-1,5).getValues() : [];
+    const label = confirm === 'yes' ? 'نعم، سأحضر' : 'ربما';
+    const now = Utilities.formatDate(new Date(), 'Asia/Riyadh', 'yyyy-MM-dd HH:mm');
+    for (let i = 0; i < rows.length; i++) {
+      if (String(rows[i][1]) === ev && String(rows[i][3]) === phone) { // نفس الجوال لنفس الفعالية: تحديث لا تكرار
+        sh.getRange(i+2,1,1,5).setValues([[now, ev, name, phone, label]]);
+        return out_({ ok:true, updated:true });
+      }
+    }
+    if (rows.length >= 2000) return out_({ ok:false, error:'full' });
+    sh.appendRow([now, ev, name, phone, label]);
   } finally { lock.releaseLock(); }
   return out_({ ok:true });
 }
