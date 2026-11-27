@@ -63,9 +63,6 @@ footer a{color:var(--brown);text-decoration:none}
       <label class="f">الاسم
         <input type="text" name="name" required minlength="3" maxlength="60" autocomplete="name" placeholder="الاسم الثلاثي">
       </label>
-      <label class="f">رقم الجوال
-        <input type="tel" name="phone" required inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx" dir="ltr" style="text-align:right">
-      </label>
       <fieldset>
         <legend>تأكيد الحضور</legend>
         <label class="opt"><input type="radio" name="confirm" value="yes" required> <span>نعم، سأحضر</span></label>
@@ -78,7 +75,7 @@ footer a{color:var(--brown);text-decoration:none}
 
     <div class="done" id="done">
       <h2>تم تسجيلك</h2>
-      <p id="doneText">نشوفك في اللقاء. إذا تغيّر شيء أعد التسجيل بنفس رقم الجوال وسيُحدَّث تسجيلك.</p>
+      <p id="doneText">نشوفك في اللقاء. إذا تغيّر شيء أعد التسجيل بنفس الاسم وسيُحدَّث تسجيلك.</p>
     </div>
   </section>
 </main>
@@ -91,7 +88,7 @@ const EVENTS = {
     kicker: 'نادي مستهل الطلابي يدعوكم لحضور',
     title: 'لقاء حواري مع القيّمة الفنية روان القحطاني لمعرض «التفاحة المنفردة»',
     lead: 'جولة في الأعمال، ثم حوار مفتوح عن الطريق من الفكرة الأولى إلى صالة العرض',
-    meta: [['اليوم','الجمعة 4 ديسمبر 2026'],['الوقت','8:00 مساءً'],['المكان','استوديو شعشعي، قاعة F05']],
+    meta: [['اليوم','السبت 5 ديسمبر 2026'],['الوقت','8:00 مساءً'],['المكان','استوديو شعشعي، قاعة F05']],
   },
 };
 const q = new URLSearchParams(location.search); const key = (q.get('e')||'apple').replace(/[^\w\-]/g,'');
@@ -101,23 +98,21 @@ document.getElementById('meta').innerHTML = ev.meta.map(([k,v])=>`<span>${k}: <b
 document.title = 'التسجيل · ' + ev.title;
 
 const f = document.getElementById('f'), msg = document.getElementById('msg'), btn = document.getElementById('btn');
-const ERR = { name:'اكتب الاسم كاملًا', phone:'رقم الجوال يجب أن يكون سعوديًا بصيغة 05xxxxxxxx', confirm:'اختر تأكيد الحضور', event:'رابط التسجيل غير صحيح', full:'اكتمل العدد، تواصل مع النادي', bad_json:'تعذّر الإرسال' };
+const ERR = { name:'اكتب الاسم كاملًا', confirm:'اختر تأكيد الحضور', event:'رابط التسجيل غير صحيح', full:'اكتمل العدد، تواصل مع النادي', bad_json:'تعذّر الإرسال' };
 function show(kind, text){ msg.className = 'msg ' + kind; msg.textContent = text; }
 f.addEventListener('submit', async (e) => {
   e.preventDefault();
   const d = Object.fromEntries(new FormData(f).entries());
-  const phone = (d.phone||'').replace(/[\s\-()]/g,'').replace(/^(\+?966|00966)/,'0');
   if (!d.name || d.name.trim().length < 3) return show('bad', ERR.name);
-  if (!/^05\d{8}$/.test(phone)) return show('bad', ERR.phone);
   if (!d.confirm) return show('bad', ERR.confirm);
   if (!window.MUSTAHAL_API) return show('bad', 'الخادم غير مربوط بعد');
   btn.disabled = true; show('', ''); msg.className='msg';
   try {
-    const r = await fetch(window.MUSTAHAL_API, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({ action:'register', event:evId, name:d.name.trim(), phone, confirm:d.confirm, hp:d.hp||'' }) });
+    const r = await fetch(window.MUSTAHAL_API, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({ action:'register', event:evId, name:d.name.trim(), confirm:d.confirm, hp:d.hp||'' }) });
     const j = await r.json();
     if (!j.ok) throw new Error(j.error||'error');
     f.style.display = 'none'; document.getElementById('done').style.display = 'block';
-    if (j.updated) document.getElementById('doneText').textContent = 'حدّثنا تسجيلك السابق بنفس رقم الجوال. نشوفك في اللقاء.';
+    if (j.updated) document.getElementById('doneText').textContent = 'حدّثنا تسجيلك السابق بنفس الاسم. نشوفك في اللقاء.';
     try { localStorage.setItem('mustahal.rsvp.'+evId, '1'); } catch {}
   } catch (err) {
     show('bad', ERR[err.message] || 'تعذّر الإرسال، حاول مرة أخرى');

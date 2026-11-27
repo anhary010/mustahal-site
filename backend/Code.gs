@@ -77,38 +77,44 @@ function doPost(e) {
   return out_({ ok:true });
 }
 
-/** تسجيل حضور الطلاب في الفعاليات (صفحة rsvp على الموقع): الاسم، الجوال، تأكيد الحضور */
-const REG_SHEET = 'التسجيل';
+/** تسجيل حضور الطلاب في الفعاليات (صفحة rsvp على الموقع): الاسم وتأكيد الحضور */
+const REG_SHEET = 'تسجيل الحضور';
+function regKey_(name) { return String(name || '').replace(/[\u064B-\u0652\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/\s+/g, ' ').trim().toLowerCase(); }
 function register_(req) {
   if (req.hp) return out_({ ok:true }); // فخ للروبوتات: حقل مخفي امتلأ
   const ev = String(req.event || '').trim().slice(0, 60);
   const name = String(req.name || '').replace(/\s+/g, ' ').trim();
-  const phoneRaw = String(req.phone || '').replace(/[\s\-()]/g, '');
   const confirm = ['yes','maybe'].includes(req.confirm) ? req.confirm : '';
   if (!/^[\w\-]{2,60}$/.test(ev)) return out_({ ok:false, error:'event' });
-  if (name.length < 3 || name.length > 60) return out_({ ok:false, error:'name' });
-  const phone = phoneRaw.replace(/^(\+?966|00966)/, '0');
-  if (!/^05\d{8}$/.test(phone)) return out_({ ok:false, error:'phone' });
+  if (name.length < 3 || name.length > 60 || !/[\u0600-\u06FFa-zA-Z]/.test(name)) return out_({ ok:false, error:'name' });
   if (!confirm) return out_({ ok:false, error:'confirm' });
   const lock = LockService.getScriptLock(); lock.waitLock(10000);
   try {
     const ss = ss_(); let sh = ss.getSheetByName(REG_SHEET);
-    if (!sh) { sh = ss.insertSheet(REG_SHEET); sh.appendRow(['الوقت','الفعالية','الاسم','الجوال','تأكيد الحضور']); sh.setFrozenRows(1); }
-    sh.getRange('D:D').setNumberFormat('@'); // الجوال نصًا حتى لا يسقط الصفر الأول
+    if (!sh) { sh = ss.insertSheet(REG_SHEET); sh.appendRow(['الوقت','الفعالية','الاسم','تأكيد الحضور']); sh.setFrozenRows(1); }
     const last = sh.getLastRow();
-    const rows = last > 1 ? sh.getRange(2,1,last-1,5).getValues() : [];
+    const rows = last > 1 ? sh.getRange(2,1,last-1,4).getValues() : [];
     const label = confirm === 'yes' ? 'نعم، سأحضر' : 'ربما';
     const now = Utilities.formatDate(new Date(), 'Asia/Riyadh', 'yyyy-MM-dd HH:mm');
+    const key = regKey_(name);
     for (let i = 0; i < rows.length; i++) {
-      if (String(rows[i][1]) === ev && String(rows[i][3]).replace(/^0/, '') === phone.replace(/^0/, '')) { // نفس الجوال لنفس الفعالية: تحديث لا تكرار
-        sh.getRange(i+2,1,1,5).setValues([[now, ev, name, phone, label]]);
+      if (String(rows[i][1]) === ev && regKey_(rows[i][2]) === key) { // نفس الاسم لنفس الفعالية: تحديث لا تكرار
+        sh.getRange(i+2,1,1,4).setValues([[now, ev, name, label]]);
         return out_({ ok:true, updated:true });
       }
     }
     if (rows.length >= 2000) return out_({ ok:false, error:'full' });
-    sh.getRange(last + 1, 1, 1, 5).setValues([[now, ev, name, phone, label]]);
+    sh.getRange(last + 1, 1, 1, 4).setValues([[now, ev, name, label]]);
   } finally { lock.releaseLock(); }
   return out_({ ok:true });
+}
+
+/** مؤقت: حذف ورقة «التسجيل» القديمة (كانت بعمود الجوال) وأي سطر اختبار */
+function cleanupRegistration() {
+  const ss = ss_(); const old = ss.getSheetByName('التسجيل'); if (old) ss.deleteSheet(old);
+  const sh = ss.getSheetByName(REG_SHEET); if (!sh) { Logger.log('ok, no sheet yet'); return; }
+  let n = 0; for (let r = sh.getLastRow(); r >= 2; r--) { if (String(sh.getRange(r,3).getValue()).indexOf('اختبار النظام') === 0) { sh.deleteRow(r); n++; } }
+  Logger.log('deleted ' + n);
 }
 
 /** تُشغَّل مرة واحدة من المحرر */
