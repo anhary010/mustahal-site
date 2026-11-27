@@ -94,18 +94,19 @@ function register_(req) {
   try {
     const ss = ss_(); let sh = ss.getSheetByName(REG_SHEET);
     if (!sh) { sh = ss.insertSheet(REG_SHEET); sh.appendRow(['الوقت','الفعالية','الاسم','الجوال','تأكيد الحضور']); sh.setFrozenRows(1); }
+    sh.getRange('D:D').setNumberFormat('@'); // الجوال نصًا حتى لا يسقط الصفر الأول
     const last = sh.getLastRow();
     const rows = last > 1 ? sh.getRange(2,1,last-1,5).getValues() : [];
     const label = confirm === 'yes' ? 'نعم، سأحضر' : 'ربما';
     const now = Utilities.formatDate(new Date(), 'Asia/Riyadh', 'yyyy-MM-dd HH:mm');
     for (let i = 0; i < rows.length; i++) {
-      if (String(rows[i][1]) === ev && String(rows[i][3]) === phone) { // نفس الجوال لنفس الفعالية: تحديث لا تكرار
+      if (String(rows[i][1]) === ev && String(rows[i][3]).replace(/^0/, '') === phone.replace(/^0/, '')) { // نفس الجوال لنفس الفعالية: تحديث لا تكرار
         sh.getRange(i+2,1,1,5).setValues([[now, ev, name, phone, label]]);
         return out_({ ok:true, updated:true });
       }
     }
     if (rows.length >= 2000) return out_({ ok:false, error:'full' });
-    sh.appendRow([now, ev, name, phone, label]);
+    sh.getRange(last + 1, 1, 1, 5).setValues([[now, ev, name, phone, label]]);
   } finally { lock.releaseLock(); }
   return out_({ ok:true });
 }
